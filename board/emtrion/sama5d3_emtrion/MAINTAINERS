@@ -1,0 +1,7 @@
+SAMA5D3_EMTRION BOARD
+M:	Dan Evans <photonthunder@gmail.com>
+S:	Maintained
+F:	board/emtrion/sama5d3_emtrion/
+F:	include/configs/sama5d3_emtrion.h
+F:	configs/sama5d3_emtrion_mmc_defconfig
+F:	configs/sama5d3_emtrion_nandflash_defconfig
