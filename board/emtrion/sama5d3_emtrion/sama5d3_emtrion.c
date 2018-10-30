@@ -36,7 +36,7 @@ typedef enum {
 } eRevision_t;
 
 #ifdef CONFIG_NAND_ATMEL
-void sama5d3_xplained_nand_hw_init(void)
+void sama5d3_nand_hw_init(void)
 {
 	struct at91_smc *smc = (struct at91_smc *)ATMEL_BASE_SMC;
 
@@ -61,19 +61,19 @@ void sama5d3_xplained_nand_hw_init(void)
 	       AT91_SMC_MODE_DBW_16 |
 #else /* CONFIG_SYS_NAND_DBW_8 */
 	       AT91_SMC_MODE_DBW_8 |
-#endif
+#endif /* CONFIG_SYS_NAND_DBW_16 */
 	       AT91_SMC_MODE_TDF_CYCLE(3),
 	       &smc->cs[3].mode);
 }
 #endif
 
 #ifdef CONFIG_CMD_USB
-static void sama5d3_xplained_usb_hw_init(void)
+static void sama5d3_usb_hw_init(void)
 {
 	at91_set_pio_output(AT91_PIO_PORTE, 3, 0);
 	at91_set_pio_output(AT91_PIO_PORTE, 4, 0);
 }
-#endif
+#endif /* CONFIG_CMD_USB */
 
 /* SPI chip select control */
 #ifdef CONFIG_ATMEL_SPI
@@ -134,7 +134,7 @@ int get_i2c_scl_pin(void)
 		return AT91_PIN_PA31;
 	}
 }
-#endif
+#endif /* CONFIG_SYS_I2C_SOFT */
 
 void pmic_init(void)
 {
@@ -195,27 +195,20 @@ void use_crystal_osc_for_slowclk(void)
 	}
 }
 
-//#ifdef CONFIG_GENERIC_ATMEL_MCI
-//static void sama5d3_xplained_mci0_hw_init(void)
-//{
-//	at91_set_pio_output(AT91_PIO_PORTE, 2, 0);	/* MCI0 Power */
-//}
-//#endif
-
 //#ifdef CONFIG_BOARD_LATE_INIT
 //int board_late_init(void)
 //{
 //	at91_pda_detect();
 //	return 0;
 //}
-//#endif
+//#endif /* CONFIG_BOARD_LATE_INIT */
 
 #ifdef CONFIG_DEBUG_UART_BOARD_INIT
 void board_debug_uart_init(void)
 {
 	at91_seriald_hw_init();
 }
-#endif
+#endif /* CONFIG_DEBUG_UART_BOARD_INIT */
 
 #ifdef CONFIG_BOARD_EARLY_INIT_F
 int board_early_init_f(void)
@@ -228,7 +221,7 @@ int board_early_init_f(void)
 	
 #ifdef CONFIG_DEBUG_UART
 	debug_uart_init();
-#endif
+#endif /* CONFIG_DEBUG_UART */
 	
 	/* switch to the crystal oscillator slow clock source */
 	use_crystal_osc_for_slowclk();
@@ -236,7 +229,7 @@ int board_early_init_f(void)
 
 	return 0;
 }
-#endif
+#endif /* CONFIG_BOARD_EARLY_INIT_F */
 
 
 int board_init(void)
@@ -247,20 +240,17 @@ int board_init(void)
 	
 #ifdef CONFIG_ATMEL_SPI
 	at91_spi0_hw_init(1 << 0);
-#endif
+#endif /* CONFIG_ATMEL_SPI */
 #ifdef CONFIG_NAND_ATMEL
-	sama5d3_xplained_nand_hw_init();
-#endif
+	sama5d3_nand_hw_init();
+#endif /* CONFIG_NAND_ATMEL */
 #ifdef CONFIG_CMD_USB
-	sama5d3_xplained_usb_hw_init();
-#endif
-#ifdef CONFIG_GENERIC_ATMEL_MCI
-	sama5d3_xplained_mci0_hw_init();
-#endif
+	sama5d3_usb_hw_init();
+#endif /* CONFIG_CMD_USB */
 #ifdef CONFIG_MACB
 	at91_gmac_hw_init();
 	at91_macb_hw_init();
-#endif
+#endif /* CONFIG_MACB */
 	return 0;
 }
 
@@ -277,7 +267,7 @@ int board_eth_init(bd_t *bis)
 #ifdef CONFIG_MACB
 	macb_eth_initialize(0, (void *)ATMEL_BASE_GMAC, 0x07);
 	macb_eth_initialize(0, (void *)ATMEL_BASE_EMAC, 0x01);
-#endif
+#endif /* CONFIG_MACB */
 	return 0;
 }
 
@@ -288,9 +278,9 @@ int board_mmc_init(bd_t *bis)
 	
 	return 0;
 }
-#endif
+#endif /* CONFIG_GENERIC_ATMEL_MCI */
 
-#if defined(CONFIG_OF_BOARD_SETUP)
+#ifdef CONFIG_OF_BOARD_SETUP
 void ft_board_setup(void *blob, bd_t *bd)
 {
 	int node, i, ret;
@@ -349,7 +339,7 @@ void ft_board_setup(void *blob, bd_t *bd)
 	}
 	
 }
-#endif
+#endif /* CONFIG_OF_BOARD_SETUP */
 
 void print_board_rev(void)
 {
@@ -383,21 +373,13 @@ void spl_board_init(void)
 	
 #ifdef CONFIG_SYS_I2C_SOFT
 	pmic_init();
-#endif
+#endif /* CONFIG_SYS_I2C_SOFT */
 	
-#ifdef CONFIG_SYS_USE_MMC
+#ifdef CONFIG_SD_BOOT
 	at91_mci_hw_init();
-#elif CONFIG_SYS_USE_NANDFLASH
-	sama5d3_xplained_nand_hw_init();
-#endif
-	
-//#ifdef CONFIG_SD_BOOT
-//#ifdef CONFIG_GENERIC_ATMEL_MCI
-//	sama5d3_xplained_mci0_hw_init();
-//#endif
-//#elif CONFIG_NAND_BOOT
-//	sama5d3_xplained_nand_hw_init();
-//#endif
+#elif CONFIG_NAND_BOOT
+	sama5d3_nand_hw_init();
+#endif /* CONFIG_SD_BOOT or CONFIG_NAND_BOOT */
 }
 
 static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
@@ -531,8 +513,7 @@ void at91_pmc_init(void)
 //	at91_mck_init(tmp);
 }
 
-#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) \
-| (0x01 << 16) | (0x01 << 18))
+#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) | (0x01 << 16) | (0x01 << 18))
 
 #define EMAC_PINS	((0x01 << 7) | (0x01 << 8))
 
@@ -559,4 +540,4 @@ void at91_special_pio_output_low(void)
 	writel(EMAC_PINS, pioc->codr);
 }
 
-#endif
+#endif /* CONFIG_SPL_BUILD */
