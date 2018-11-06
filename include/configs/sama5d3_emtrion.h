@@ -40,8 +40,8 @@
 
 /* serial console */
 //#define CONFIG_ATMEL_USART
-//#define CONFIG_USART_BASE		ATMEL_BASE_DBGU
-//#define CONFIG_USART_ID			ATMEL_ID_DBGU
+#define CONFIG_USART_BASE		ATMEL_BASE_DBGU
+#define CONFIG_USART_ID			ATMEL_ID_DBGU
 
 
 /*
@@ -100,7 +100,7 @@ int get_i2c_scl_pin(void);
 
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS		1
-#define CONFIG_SYS_SDRAM_BASE           ATMEL_BASE_DDRCS
+#define CONFIG_SYS_SDRAM_BASE           (ATMEL_BASE_DDRCS)
 #define CONFIG_SYS_SDRAM_SIZE		0x10000000
 
 #ifdef CONFIG_SPL_BUILD
