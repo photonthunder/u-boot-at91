@@ -71,7 +71,7 @@
 /*
  * Command line configuration.
  */
-#include <config_cmd_default.h>
+//#include <config_cmd_default.h>
 #undef CONFIG_CMD_FPGA
 #undef CONFIG_CMD_IMI
 #undef CONFIG_CMD_LOADS
