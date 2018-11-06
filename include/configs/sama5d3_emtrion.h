@@ -237,15 +237,15 @@ int get_i2c_scl_pin(void);
 #define CONFIG_ENV_IS_NOWHERE
 #endif
 
-//#ifdef CONFIG_SD_BOOT
-//#define CONFIG_BOOTARGS							\
-//"console=ttyS0,115200 earlyprintk "				\
-//"root=/dev/mmcblk0p2 rw rootwait"
-//#else
-//#define CONFIG_BOOTARGS							\
-//"console=ttyS0,115200 earlyprintk "				\
-//"rootfstype=ubifs ubi.mtd=3 root=ubi0:rootfs rw rootwait"
-//#endif
+/* #ifdef CONFIG_SD_BOOT
+#define CONFIG_BOOTARGS							\
+"console=ttyS0,115200 earlyprintk "				\
+"root=/dev/mmcblk0p2 rw rootwait"
+#else
+#define CONFIG_BOOTARGS							\
+"console=ttyS0,115200 earlyprintk "				\
+"rootfstype=ubifs ubi.mtd=3 root=ubi0:rootfs rw rootwait"
+#endif */
 
 #define CONFIG_BAUDRATE			115200
 
