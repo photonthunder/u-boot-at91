@@ -20,7 +20,7 @@
 #include <asm/arch/at91_pmc.h>
 #include <asm/arch/at91_sckc.h>
 #include <atmel_mci.h>
-#include <libfdt.h>
+//#include <libfdt.h>
 #include <net.h>
 #include <netdev.h>
 #include <i2c.h>
