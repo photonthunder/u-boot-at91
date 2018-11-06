@@ -60,10 +60,10 @@
 /*
  * BOOTP options
  */
-#define CONFIG_BOOTP_BOOTFILESIZE
-#define CONFIG_BOOTP_BOOTPATH
-#define CONFIG_BOOTP_GATEWAY
-#define CONFIG_BOOTP_HOSTNAME
+//#define CONFIG_BOOTP_BOOTFILESIZE
+//#define CONFIG_BOOTP_BOOTPATH
+//#define CONFIG_BOOTP_GATEWAY
+//#define CONFIG_BOOTP_HOSTNAME
 
 /* No NOR flash */
 // #define CONFIG_SYS_NO_FLASH // Does not exist
@@ -83,7 +83,7 @@
 /* I2C */
 
 #define CONFIG_ATMEL_LEGACY /* needed for gpio header */
-#define CONFIG_SPL_I2C_SUPPORT
+//#define CONFIG_SPL_I2C_SUPPORT
 #define CONFIG_SYS_I2C_SOFT
 #define CONFIG_SYS_I2C
 
@@ -142,16 +142,16 @@ int get_i2c_scl_pin(void);
 #define CONFIG_PMECC_CAP		4
 #define CONFIG_PMECC_SECTOR_SIZE	512
 //#define CONFIG_CMD_NAND_TRIMFFS
-#define CONFIG_CMD_MTDPARTS
+//#define CONFIG_CMD_MTDPARTS
 
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 //#define MTDIDS_DEFAULT     "nand0=atmel_nand"
 //#define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)"
-#define CONFIG_RBTREE
-#define CONFIG_LZO
+// #define CONFIG_RBTREE
+// #define CONFIG_LZO
 //#define CONFIG_CMD_UBI
-#define CONFIG_CMD_UBIFS
+//#define CONFIG_CMD_UBIFS
 #endif
 
 /* Ethernet Hardware */
@@ -161,13 +161,13 @@ int get_i2c_scl_pin(void);
 #define CONFIG_NET_RETRY_COUNT		20
 #define CONFIG_RGMII
 //#define CONFIG_CMD_MII
-#define CONFIG_PHYLIB
+//#define CONFIG_PHYLIB
 
 /* MMC */
 //#define CONFIG_CMD_MMC
 
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_MMC
+//#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 //#define CONFIG_GENERIC_ATMEL_MCI
 #endif
@@ -187,7 +187,7 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_USB_OHCI_REGS_BASE		ATMEL_BASE_OHCI
 #define CONFIG_SYS_USB_OHCI_SLOT_NAME		"emtrion SBC-SAMA5D36"
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	2
-#define CONFIG_DOS_PARTITION
+//#define CONFIG_DOS_PARTITION
 //#define CONFIG_USB_STORAGE
 #endif
 
@@ -249,14 +249,14 @@ int get_i2c_scl_pin(void);
 
 #define CONFIG_BAUDRATE			115200
 
-#define CONFIG_SYS_PROMPT		"U-Boot> "
+//#define CONFIG_SYS_PROMPT		"U-Boot> "
 #define CONFIG_SYS_CBSIZE		1024
 #define CONFIG_SYS_MAXARGS		16
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
 sizeof(CONFIG_SYS_PROMPT) + 16)
-#define CONFIG_SYS_LONGHELP
-#define CONFIG_CMDLINE_EDITING
-#define CONFIG_AUTO_COMPLETE
+//#define CONFIG_SYS_LONGHELP
+//#define CONFIG_CMDLINE_EDITING
+//#define CONFIG_AUTO_COMPLETE
 #define CONFIG_SYS_HUSH_PARSER
 
 /* Size of malloc() pool */
@@ -277,7 +277,7 @@ sizeof(CONFIG_SYS_PROMPT) + 16)
 //#define CONFIG_SPL_GPIO_SUPPORT
 //#define CONFIG_SPL_SERIAL_SUPPORT
 
-#define CONFIG_SPL_BOARD_INIT
+//#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)
 
 #ifdef CONFIG_SD_BOOT
