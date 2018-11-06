@@ -107,7 +107,6 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_INIT_SP_ADDR		0x310000
 #else
 #define CONFIG_SYS_INIT_SP_ADDR (CONFIG_SYS_SDRAM_BASE + 4 * 1024 - GENERATED_GBL_DATA_SIZE)
-#error "CONFIG_SPL_BUILD not defined"
 #endif
 
 #ifdef CONFIG_CMD_SF
