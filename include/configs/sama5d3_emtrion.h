@@ -100,7 +100,7 @@ int get_i2c_scl_pin(void);
 
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS		1
-#define CONFIG_SYS_SDRAM_BASE           (ATMEL_BASE_DDRCS)
+#define CONFIG_SYS_SDRAM_BASE       0x20000000
 #define CONFIG_SYS_SDRAM_SIZE		0x10000000
 
 #ifdef CONFIG_SPL_BUILD
