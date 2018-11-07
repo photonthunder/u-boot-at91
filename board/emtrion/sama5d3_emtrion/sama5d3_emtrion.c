@@ -9,6 +9,7 @@
 #include <asm/arch/sama5d3_smc.h>
 #include <asm/arch/at91_common.h>
 #include <asm/arch/at91_rstc.h>
+/* #include <asm/arch/at91_pio.h> */
 #include <asm/arch/gpio.h>
 #include <asm/arch/clk.h>
 #include <debug_uart.h>
