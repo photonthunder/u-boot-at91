@@ -20,7 +20,7 @@
 #include <asm/arch/at91_pmc.h>
 #include <asm/arch/at91_sckc.h>
 #include <atmel_mci.h>
-//#include <libfdt.h>
+/* #include <libfdt.h> */
 #include <net.h>
 #include <netdev.h>
 #include <i2c.h>
@@ -195,13 +195,15 @@ void use_crystal_osc_for_slowclk(void)
 	}
 }
 
-//#ifdef CONFIG_BOARD_LATE_INIT
-//int board_late_init(void)
-//{
-//	at91_pda_detect();
-//	return 0;
-//}
-//#endif /* CONFIG_BOARD_LATE_INIT */
+#if 0
+#ifdef CONFIG_BOARD_LATE_INIT
+int board_late_init(void)
+{
+	at91_pda_detect();
+	return 0;
+}
+#endif /* CONFIG_BOARD_LATE_INIT */
+#endif
 
 #ifdef CONFIG_DEBUG_UART_BOARD_INIT
 void board_debug_uart_init(void)
@@ -460,17 +462,18 @@ void mem_init(void)
 	ddr2_init(ATMEL_BASE_DDRCS, &ddr2);
 	
 	udelay(2000);
-	
-//	struct atmel_mpddrc_config ddr2;
-//
-//	ddr2_conf(&ddr2);
-//
-//	/* Enable MPDDR clock */
-//	at91_periph_clk_enable(ATMEL_ID_MPDDRC);
-//	at91_system_clk_enable(AT91_PMC_DDR);
-//
-//	/* DDRAM2 Controller initialize */
-//	ddr2_init(ATMEL_BASE_MPDDRC, ATMEL_BASE_DDRCS, &ddr2);
+#if 0
+	struct atmel_mpddrc_config ddr2;
+
+	ddr2_conf(&ddr2);
+
+	/* Enable MPDDR clock */
+	at91_periph_clk_enable(ATMEL_ID_MPDDRC);
+	at91_system_clk_enable(AT91_PMC_DDR);
+
+	/* DDRAM2 Controller initialize */
+	ddr2_init(ATMEL_BASE_MPDDRC, ATMEL_BASE_DDRCS, &ddr2);
+#endif
 }
 
 void at91_pmc_init(void)
@@ -500,19 +503,21 @@ void at91_pmc_init(void)
 	
 	udelay(1000);
 	
-//	u32 tmp;
-//
-//	tmp = AT91_PMC_PLLAR_29 |
-//	      AT91_PMC_PLLXR_PLLCOUNT(0x3f) |
-//	      AT91_PMC_PLLXR_MUL(43) |
-//	      AT91_PMC_PLLXR_DIV(1);
-//	at91_plla_init(tmp);
-//
-//	at91_pllicpr_init(AT91_PMC_IPLL_PLLA(0x3));
-//
-//	tmp = AT91_PMC_MCKR_MDIV_4 |
-//	      AT91_PMC_MCKR_CSS_PLLA;
-//	at91_mck_init(tmp);
+#if 0
+ 	u32 tmp;
+
+	tmp = AT91_PMC_PLLAR_29 |
+	      AT91_PMC_PLLXR_PLLCOUNT(0x3f) |
+	      AT91_PMC_PLLXR_MUL(43) |
+	      AT91_PMC_PLLXR_DIV(1);
+	at91_plla_init(tmp);
+
+	at91_pllicpr_init(AT91_PMC_IPLL_PLLA(0x3));
+
+	tmp = AT91_PMC_MCKR_MDIV_4 |
+	      AT91_PMC_MCKR_CSS_PLLA;
+	at91_mck_init(tmp);
+#endif
 }
 
 #define GMAC_PINS	((0x01 << 8) | (0x01 << 11) | (0x01 << 16) | (0x01 << 18))

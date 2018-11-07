@@ -12,7 +12,7 @@
 
 #include <asm/hardware.h>
 
-//#define CONFIG_SYS_TEXT_BASE		0x26f00000
+/* #define CONFIG_SYS_TEXT_BASE		0x26f00000 */
 
 /* ARM asynchronous clock */
 #define CONFIG_SYS_AT91_SLOW_CLOCK      32768
@@ -24,22 +24,22 @@
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #endif
 
-//#define CONFIG_BOARD_EARLY_INIT_F
-//#define CONFIG_DISPLAY_CPUINFO
+/* #define CONFIG_BOARD_EARLY_INIT_F */
+/* #define CONFIG_DISPLAY_CPUINFO */
 
-//#define CONFIG_CMD_BOOTZ
-//#define CONFIG_OF_LIBFDT		/* Device Tree support */
-//#define CONFIG_OF_BOARD_SETUP
-//#define CONFIG_SYS_GENERIC_BOARD
+/* #define CONFIG_CMD_BOOTZ */
+/* #define CONFIG_OF_LIBFDT */		/* Device Tree support */
+/* #define CONFIG_OF_BOARD_SETUP */
+/* #define CONFIG_SYS_GENERIC_BOARD */
 
 /* general purpose I/O */
-//#ifndef CONFIG_DM_GPIO
-//#define CONFIG_AT91_GPIO
-//#endif
-//#define CONFIG_CMD_GPIO
+/* #ifndef CONFIG_DM_GPIO */
+/* #define CONFIG_AT91_GPIO */
+/* #endif */
+/* #define CONFIG_CMD_GPIO */
 
 /* serial console */
-//#define CONFIG_ATMEL_USART
+/* #define CONFIG_ATMEL_USART */
 #define CONFIG_USART_BASE		ATMEL_BASE_DBGU
 #define CONFIG_USART_ID			ATMEL_ID_DBGU
 
@@ -55,35 +55,35 @@
  */
 #define ATMEL_PMC_UHP			AT91SAM926x_PMC_UHP
 
-//#define CONFIG_BOOTDELAY		3
+/* #define CONFIG_BOOTDELAY		3 */
 
 /*
  * BOOTP options
  */
-//#define CONFIG_BOOTP_BOOTFILESIZE
-//#define CONFIG_BOOTP_BOOTPATH
-//#define CONFIG_BOOTP_GATEWAY
-//#define CONFIG_BOOTP_HOSTNAME
+/* #define CONFIG_BOOTP_BOOTFILESIZE */
+/* #define CONFIG_BOOTP_BOOTPATH */
+/* #define CONFIG_BOOTP_GATEWAY */
+/* #define CONFIG_BOOTP_HOSTNAME */
 
 /* No NOR flash */
-// #define CONFIG_SYS_NO_FLASH // Does not exist
+/* #define CONFIG_SYS_NO_FLASH /* Does not exist
 
 /*
  * Command line configuration.
  */
-//#include <config_cmd_default.h>
+/* #include <config_cmd_default.h> */
 #undef CONFIG_CMD_FPGA
 #undef CONFIG_CMD_IMI
 #undef CONFIG_CMD_LOADS
-//#define CONFIG_CMD_PING
-//#define CONFIG_CMD_DHCP
-//#define CONFIG_CMD_I2C
-//#define CONFIG_CMD_SF
+/* #define CONFIG_CMD_PING */
+/* #define CONFIG_CMD_DHCP */
+/* #define CONFIG_CMD_I2C */
+/* #define CONFIG_CMD_SF */
 
 /* I2C */
 
 #define CONFIG_ATMEL_LEGACY /* needed for gpio header */
-//#define CONFIG_SPL_I2C_SUPPORT
+/* #define CONFIG_SPL_I2C_SUPPORT */
 #define CONFIG_SYS_I2C_SOFT
 #define CONFIG_SYS_I2C
 
@@ -91,8 +91,8 @@
 int get_i2c_sda_pin(void);
 int get_i2c_scl_pin(void);
 #endif
-#define CONFIG_SOFT_I2C_GPIO_SDA	get_i2c_sda_pin() // doesn't exist
-#define CONFIG_SOFT_I2C_GPIO_SCL	get_i2c_scl_pin() // doesn't exist
+#define CONFIG_SOFT_I2C_GPIO_SDA	get_i2c_sda_pin()
+#define CONFIG_SOFT_I2C_GPIO_SCL	get_i2c_scl_pin()
 #define CONFIG_SYS_I2C_SOFT_SPEED	50000
 #define CONFIG_SYS_I2C_SOFT_SLAVE	0
 #define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
@@ -110,8 +110,8 @@ int get_i2c_scl_pin(void);
 #endif
 
 #ifdef CONFIG_CMD_SF
-//#define CONFIG_ATMEL_SPI
-//#define CONFIG_SPI_FLASH
+/* #define CONFIG_ATMEL_SPI */
+/* #define CONFIG_SPI_FLASH */
 #define CONFIG_SPI_FLASH_MACRONIX
 #define CONFIG_SPI_FLASH_SPANSION
 #define CONFIG_SPI_FLASH_STMICRO
@@ -122,7 +122,7 @@ int get_i2c_scl_pin(void);
 #endif
 
 /* NAND flash */
-//#define CONFIG_CMD_NAND
+/* #define CONFIG_CMD_NAND */
 
 #ifdef CONFIG_CMD_NAND
 #define CONFIG_NAND_ATMEL
@@ -139,43 +139,43 @@ int get_i2c_scl_pin(void);
 #define CONFIG_ATMEL_NAND_HW_PMECC
 #define CONFIG_PMECC_CAP		4
 #define CONFIG_PMECC_SECTOR_SIZE	512
-//#define CONFIG_CMD_NAND_TRIMFFS
-//#define CONFIG_CMD_MTDPARTS
+/* #define CONFIG_CMD_NAND_TRIMFFS */
+/* #define CONFIG_CMD_MTDPARTS */
 
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-//#define MTDIDS_DEFAULT     "nand0=atmel_nand"
-//#define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)"
-// #define CONFIG_RBTREE
-// #define CONFIG_LZO
-//#define CONFIG_CMD_UBI
-//#define CONFIG_CMD_UBIFS
+/* #define MTDIDS_DEFAULT     "nand0=atmel_nand" */
+/* #define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)" */
+/* #define CONFIG_RBTREE */
+/* #define CONFIG_LZO */
+/* #define CONFIG_CMD_UBI */
+/* #define CONFIG_CMD_UBIFS */
 #endif
 
 /* Ethernet Hardware */
-//#define CONFIG_MACB
+/*#define CONFIG_MACB */
 #define CONFIG_RMII
 #define CONFIG_NET_MULTI
 #define CONFIG_NET_RETRY_COUNT		20
 #define CONFIG_RGMII
-//#define CONFIG_CMD_MII
-//#define CONFIG_PHYLIB
+/* #define CONFIG_CMD_MII */
+/* #define CONFIG_PHYLIB */
 
 /* MMC */
-//#define CONFIG_CMD_MMC
+/* #define CONFIG_CMD_MMC */
 
 #ifdef CONFIG_CMD_MMC
-//#define CONFIG_MMC
+/* #define CONFIG_MMC */
 #define CONFIG_GENERIC_MMC
-//#define CONFIG_GENERIC_ATMEL_MCI
+/* #define CONFIG_GENERIC_ATMEL_MCI */
 #endif
 
 /* additional stuff */
 #define CONFIG_CMD_CACHE
-/*#define CONFIG_CMD_MD5SUM*/
+/* #define CONFIG_CMD_MD5SUM*/
 
 /* USB */
-//#define CONFIG_CMD_USB
+/* #define CONFIG_CMD_USB */
 
 #ifdef CONFIG_CMD_USB
 #define CONFIG_USB_ATMEL
@@ -185,22 +185,22 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_USB_OHCI_REGS_BASE		ATMEL_BASE_OHCI
 #define CONFIG_SYS_USB_OHCI_SLOT_NAME		"emtrion SBC-SAMA5D36"
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	2
-//#define CONFIG_DOS_PARTITION
-//#define CONFIG_USB_STORAGE
+/* #define CONFIG_DOS_PARTITION */
+/* #define CONFIG_USB_STORAGE */
 #endif
 
 #if defined(CONFIG_CMD_USB) || defined(CONFIG_CMD_MMC)
-//#define CONFIG_CMD_FAT
-//#define CONFIG_FAT_WRITE
-//#define CONFIG_CMD_EXT4
-//#define CONFIG_CMD_EXT4_WRITE
+/* #define CONFIG_CMD_FAT */
+/* #define CONFIG_FAT_WRITE */
+/* #define CONFIG_CMD_EXT4 */
+/* #define CONFIG_CMD_EXT4_WRITE */
 #endif
 
 #define CONFIG_SYS_LOAD_ADDR			0x22000000 /* load address */
 
 #if CONFIG_NAND_BOOT
 /* bootstrap + u-boot + env in nandflash */
-//#define CONFIG_ENV_IS_IN_NAND
+/* #define CONFIG_ENV_IS_IN_NAND */
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_ENV_OFFSET		0xc0000
 #define CONFIG_ENV_SIZE			0x20000
@@ -235,7 +235,8 @@ int get_i2c_scl_pin(void);
 #define CONFIG_ENV_IS_NOWHERE
 #endif
 
-/* #ifdef CONFIG_SD_BOOT
+/*
+#ifdef CONFIG_SD_BOOT
 #define CONFIG_BOOTARGS							\
 "console=ttyS0,115200 earlyprintk "				\
 "root=/dev/mmcblk0p2 rw rootwait"
@@ -243,26 +244,27 @@ int get_i2c_scl_pin(void);
 #define CONFIG_BOOTARGS							\
 "console=ttyS0,115200 earlyprintk "				\
 "rootfstype=ubifs ubi.mtd=3 root=ubi0:rootfs rw rootwait"
-#endif */
+#endif
+ */
 
 #define CONFIG_BAUDRATE			115200
 
-//#define CONFIG_SYS_PROMPT		"U-Boot> "
+/* #define CONFIG_SYS_PROMPT		"U-Boot> " */
 #define CONFIG_SYS_CBSIZE		1024
 #define CONFIG_SYS_MAXARGS		16
 #define CONFIG_SYS_PBSIZE		(CONFIG_SYS_CBSIZE + \
 sizeof(CONFIG_SYS_PROMPT) + 16)
-//#define CONFIG_SYS_LONGHELP
-//#define CONFIG_CMDLINE_EDITING
-//#define CONFIG_AUTO_COMPLETE
+/* #define CONFIG_SYS_LONGHELP */
+/* #define CONFIG_CMDLINE_EDITING */
+/* #define CONFIG_AUTO_COMPLETE */
 #define CONFIG_SYS_HUSH_PARSER
 
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(4 * 1024 * 1024)
 
 /* SPL */
-//#define CONFIG_SPL
-//#define CONFIG_SPL_FRAMEWORK
+/* #define CONFIG_SPL */
+/* #define CONFIG_SPL_FRAMEWORK */
 #define CONFIG_SPL_TEXT_BASE		0x300000
 #define CONFIG_SPL_MAX_SIZE		0x10000
 #define CONFIG_SPL_BSS_START_ADDR	0x20000000
@@ -270,12 +272,12 @@ sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_SPL_MALLOC_START	0x20080000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x80000
 
-//#define CONFIG_SPL_LIBCOMMON_SUPPORT
-//#define CONFIG_SPL_LIBGENERIC_SUPPORT
-//#define CONFIG_SPL_GPIO_SUPPORT
-//#define CONFIG_SPL_SERIAL_SUPPORT
+/* #define CONFIG_SPL_LIBCOMMON_SUPPORT */
+/* #define CONFIG_SPL_LIBGENERIC_SUPPORT */
+/* #define CONFIG_SPL_GPIO_SUPPORT */
+/* #define CONFIG_SPL_SERIAL_SUPPORT */
 
-//#define CONFIG_SPL_BOARD_INIT
+/* #define CONFIG_SPL_BOARD_INIT */
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)
 
 #ifdef CONFIG_SD_BOOT
@@ -289,7 +291,7 @@ sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SPL_LIBDISK_SUPPORT
 
 #elif CONFIG_NAND_BOOT
-//#define CONFIG_SPL_NAND_SUPPORT
+/* #define CONFIG_SPL_NAND_SUPPORT */
 #define CONFIG_SPL_NAND_DRIVERS
 #define CONFIG_SPL_NAND_BASE
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x40000
