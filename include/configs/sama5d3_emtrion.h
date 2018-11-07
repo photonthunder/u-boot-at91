@@ -66,7 +66,7 @@
 /* #define CONFIG_BOOTP_HOSTNAME */
 
 /* No NOR flash */
-/* #define CONFIG_SYS_NO_FLASH /* Does not exist
+/* #define CONFIG_SYS_NO_FLASH */
 
 /*
  * Command line configuration.
