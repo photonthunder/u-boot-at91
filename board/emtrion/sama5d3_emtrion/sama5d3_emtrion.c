@@ -281,7 +281,7 @@ int board_mmc_init(bd_t *bis)
 #endif /* CONFIG_GENERIC_ATMEL_MCI */
 
 #ifdef CONFIG_OF_BOARD_SETUP
-void ft_board_setup(void *blob, bd_t *bd)
+int ft_board_setup(void *blob, bd_t *bd)
 {
 	int node, i, ret;
 	char *tmp, *end;
@@ -291,7 +291,7 @@ void ft_board_setup(void *blob, bd_t *bd)
 	tmp = getenv("ethaddr");
 	if (!tmp) {
 		printf("ethaddr env variable not defined\n");
-		return;
+		return -1;
 	}
 	for (i = 0; i < 6; i++) {
 		mac_addr[i] = tmp ? simple_strtoul(tmp, &end, 16) : 0;
@@ -303,20 +303,20 @@ void ft_board_setup(void *blob, bd_t *bd)
 	node = fdt_path_offset(blob, "/ahb/apb/ethernet@f0028000");
 	if (node < 0) {
 		printf("No /ahb/apb/ethernet@f0028000 offset!\n");
-		return;
+		return -1;
 	}
 	
 	ret = fdt_setprop(blob, node, "local-mac-address", &mac_addr, 6);
 	if (ret) {
 		printf("error setting local-mac-address property\n");
-		return;
+		return -1;
 	}
 	
 	/* get the mac addr from env */
 	tmp = getenv("eth1addr");
 	if (!tmp) {
 		printf("eth1addr env variable not defined\n");
-		return;
+		return -1;
 	}
 	
 	for (i = 0; i < 6; i++) {
@@ -329,14 +329,16 @@ void ft_board_setup(void *blob, bd_t *bd)
 	node = fdt_path_offset(blob, "/ahb/apb/ethernet@f802c000");
 	if (node < 0) {
 		printf("No /ahb/apb/ethernet@f802c000 offset!\n");
-		return;
+		return -1;
 	}
 	
 	ret = fdt_setprop(blob, node, "local-mac-address", &mac_addr, 6);
 	if (ret) {
 		printf("error setting local-mac-address property\n");
-		return;
+		return -1;
 	}
+	
+	return 0;
 	
 }
 #endif /* CONFIG_OF_BOARD_SETUP */
