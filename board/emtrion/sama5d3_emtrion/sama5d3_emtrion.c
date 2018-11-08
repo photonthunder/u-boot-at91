@@ -291,7 +291,7 @@ int ft_board_setup(void *blob, bd_t *bd)
 	unsigned char mac_addr[6];
 	
 	/* get the mac addr from env */
-	tmp = getenv("ethaddr");
+	tmp = env_get("ethaddr");
 	if (!tmp) {
 		printf("ethaddr env variable not defined\n");
 		return -1;
@@ -316,7 +316,7 @@ int ft_board_setup(void *blob, bd_t *bd)
 	}
 	
 	/* get the mac addr from env */
-	tmp = getenv("eth1addr");
+	tmp = env_get("eth1addr");
 	if (!tmp) {
 		printf("eth1addr env variable not defined\n");
 		return -1;
