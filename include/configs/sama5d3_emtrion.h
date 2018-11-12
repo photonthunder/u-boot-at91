@@ -118,7 +118,7 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SF_DEFAULT_SPEED		30000000
 #define CONFIG_SF_DEFAULT_MODE		SPI_MODE_3
 #else
-#error "CONFIG_CMD_SF not defined"
+/* #error "CONFIG_CMD_SF not defined" */
 #endif
 
 /* NAND flash */
