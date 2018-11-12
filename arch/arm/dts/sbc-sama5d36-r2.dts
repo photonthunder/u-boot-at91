@@ -363,50 +363,6 @@
 		};
 	};
 
-	bl_reg: backlight_regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "backlight-power-supply";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		status = "disabled";
-	};
-
-	panel_reg: panel_regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "panel-power-supply";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		status = "disabled";
-	};
-
-	backlight: backlight {
-		compatible = "pwm-backlight";
-		pwms = <&hlcdc_pwm 0 50000 PWM_POLARITY_INVERTED>;
-		brightness-levels = <1 64 68 76 92 124 188 255>;
-		default-brightness-level = <6>;
-		power-supply = <&bl_reg>;
-		status = "disabled";
-	};
-
-	panel: panel {
-		compatible = "edt,etm0700g0dh6", "simple-panel";
-		backlight = <&backlight>;
-		power-supply = <&panel_reg>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-		status = "disabled";
-
-		port@0 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-
-			panel_input: endpoint@0 {
-				reg = <0>;
-				remote-endpoint = <&hlcdc_panel_output>;
-			};
-		};
-	};
-
 	gpio_keys {
 		compatible = "gpio-keys";
 
