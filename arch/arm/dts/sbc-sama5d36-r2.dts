@@ -230,23 +230,6 @@
 				status = "disabled";
 			};
 
-			hlcdc: hlcdc@f0030000 {
-				status = "disabled";
-
-				hlcdc-display-controller {
-					pinctrl-names = "default";
-					pinctrl-0 = <&pinctrl_lcd_base &pinctrl_lcd_rgb888_alt>;
-
-					port@0 {
-
-						hlcdc_panel_output: endpoint@0 {
-							reg = <0>;
-							remote-endpoint = <&panel_input>;
-						};
-					};
-				};
-			};
-
 			macb1: ethernet@f802c000 {
 				phy-mode = "rmii";
 				#address-cells = <1>;
@@ -292,52 +275,6 @@
 			pmc: pmc@fffffc00 {
 				main: mainck {
 					clock-frequency = <12000000>;
-				};
-			};
-		};
-		ebi: ebi@10000000 {
-			pinctrl-0 = <&pinctrl_ebi_nand_addr>;
-			pinctrl-names = "default";
-			status = "okay";
-
-			nand_controller: nand-controller {
-				status = "okay";
-
-				nand@3 {
-					reg = <0x3 0x0 0x2>;
-					atmel,rb = <0>;
-					nand-bus-width = <8>;
-					nand-ecc-mode = "hw";
-					nand-ecc-strength = <4>;
-					nand-ecc-step-size = <512>;
-					nand-on-flash-bbt;
-					label = "atmel_nand";
-
-					partitions {
-						compatible = "fixed-partitions";
-						#address-cells = <1>;
-						#size-cells = <1>;
-
-						at91bootstrap@0 {
-							label = "at91bootstrap";
-							reg = <0x0 0x40000>;
-						};
-
-						bootloader@40000 {
-							label = "bootloader";
-							reg = <0x40000 0x80000>;
-						};
-
-						bootloaderenv@c0000 {
-							label = "bootloader env";
-							reg = <0xc0000 0x40000>;
-						};
-
-						rootfs@800000 {
-							label = "rootfs";
-							reg = <0x100000 0x1fe80000>;
-						};
-					};
 				};
 			};
 		};
