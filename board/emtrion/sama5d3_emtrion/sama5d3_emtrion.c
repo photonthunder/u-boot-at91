@@ -21,8 +21,7 @@
 #include <asm/arch/at91_pmc.h>
 #include <asm/arch/at91_sckc.h>
 #include <atmel_mci.h>
-#include <linux/libfdt_env.h>
-#include <fdt.h>
+#include <linux/libfdt.h>
 #include <net.h>
 #include <netdev.h>
 #include <i2c.h>
