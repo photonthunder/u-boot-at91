@@ -534,22 +534,24 @@ void at91_pmc_init(void)
 
 void at91_special_pio_output_low(void)
 {
-	struct at91_pmc *pmc = (struct at91_pmc *) ATMEL_BASE_PMC;
-	struct at91_port *piob = (struct at91_port *) ATMEL_BASE_PIOB;
-	struct at91_port *pioc = (struct at91_port *) ATMEL_BASE_PIOC;
+	/* struct at91_pmc *pmc = (struct at91_pmc *) ATMEL_BASE_PMC; */
+	at91_port_t *piob = (at91_port_t *) ATMEL_BASE_PIOB;
+	at91_port_t *pioc = (at91_port_t *) ATMEL_BASE_PIOC;
 	
-	writel((1 << ATMEL_ID_PIOB), pmc->pcer);
+	/* writel((1 << ATMEL_ID_PIOB), pmc->pcer); */
+	at91_periph_clk_enable(ATMEL_ID_PIOB);
 	
 	writel(GMAC_PINS, piob->pudr);
-	writel(GMAC_PINS, piob->pio3.ppddr);
+	writel(GMAC_PINS, piob->mux.pio3.ppddr);
 	writel(GMAC_PINS, piob->per);
 	writel(GMAC_PINS, piob->oer);
 	writel(GMAC_PINS, piob->codr);
 	
-	writel((1 << ATMEL_ID_PIOC), pmc->pcer);
+	/* writel((1 << ATMEL_ID_PIOC), pmc->pcer); */
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
 	
 	writel(EMAC_PINS, pioc->pudr);
-	writel(EMAC_PINS, pioc->pio3.ppddr);
+	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
 	writel(EMAC_PINS, pioc->per);
 	writel(EMAC_PINS, pioc->oer);
 	writel(EMAC_PINS, pioc->codr);
