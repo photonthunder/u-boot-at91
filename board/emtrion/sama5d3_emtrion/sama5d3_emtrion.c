@@ -430,7 +430,7 @@ void mem_init(void)
 {
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 	struct atmel_mpddr *mpddr = (struct atmel_mpddr *)ATMEL_BASE_MPDDRC;
-	struct atmel_mpddr_config ddr2;
+	struct atmel_mpddrc_config ddr2;
 	unsigned int reg;
 	
 	ddr2_conf(&ddr2);
