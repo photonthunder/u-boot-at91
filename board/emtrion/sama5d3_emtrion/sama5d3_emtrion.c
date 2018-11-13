@@ -435,11 +435,11 @@ struct atmel_mpddr_dll {
 	u32 ss1;		/* 0x80 DLL Status Slave 1 Register RO */
 	u32 ss2;		/* 0x80 DLL Status Slave 2 Register RO */
 	u32 ss3;		/* 0x80 DLL Status Slave 3 Register RO */
-}
+};
 
 void mem_init(void)
 {
-	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
+	/* struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC; */
 	struct atmel_mpddr *mpddr = (struct atmel_mpddr *)ATMEL_BASE_MPDDRC;
 	struct atmel_mpddr_dll *mpddr_dll = (struct atmel_mpddr_dll *)ATMEL_BASE_MPDDRC;
 	struct atmel_mpddrc_config ddr2;
@@ -541,7 +541,7 @@ void at91_special_pio_output_low(void)
 	writel((1 << ATMEL_ID_PIOB), pmc->pcer);
 	
 	writel(GMAC_PINS, piob->pudr);
-	writel(GMAC_PINS, piob->ppddr);
+	writel(GMAC_PINS, piob->pio3.ppddr);
 	writel(GMAC_PINS, piob->per);
 	writel(GMAC_PINS, piob->oer);
 	writel(GMAC_PINS, piob->codr);
@@ -549,7 +549,7 @@ void at91_special_pio_output_low(void)
 	writel((1 << ATMEL_ID_PIOC), pmc->pcer);
 	
 	writel(EMAC_PINS, pioc->pudr);
-	writel(EMAC_PINS, pioc->ppddr);
+	writel(EMAC_PINS, pioc->pio3.ppddr);
 	writel(EMAC_PINS, pioc->per);
 	writel(EMAC_PINS, pioc->oer);
 	writel(EMAC_PINS, pioc->codr);
