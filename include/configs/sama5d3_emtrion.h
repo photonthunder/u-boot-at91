@@ -96,7 +96,7 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_I2C_SOFT_SPEED	50000
 #define CONFIG_SYS_I2C_SOFT_SLAVE	0
 #define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
-#define CONFIG_SYS_NUM_I2C_ADAPTERS 1
+/* #define CONFIG_SYS_NUM_I2C_ADAPTERS 1 */
 
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS		1
@@ -166,7 +166,7 @@ int get_i2c_scl_pin(void);
 
 #ifdef CONFIG_CMD_MMC
 /* #define CONFIG_MMC */
-#define CONFIG_GENERIC_MMC
+/* #define CONFIG_GENERIC_MMC */
 /* #define CONFIG_GENERIC_ATMEL_MCI */
 #endif
 
@@ -257,7 +257,7 @@ sizeof(CONFIG_SYS_PROMPT) + 16)
 /* #define CONFIG_SYS_LONGHELP */
 /* #define CONFIG_CMDLINE_EDITING */
 /* #define CONFIG_AUTO_COMPLETE */
-#define CONFIG_SYS_HUSH_PARSER
+/* #define CONFIG_SYS_HUSH_PARSER */
 
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(4 * 1024 * 1024)
