@@ -426,10 +426,22 @@ static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
 		      2 << ATMEL_MPDDRC_TPR2_TXARD_OFFSET);
 }
 
+struct atmel_mpddr_dll {
+	u32 reserved1[29];
+	u32 mo;			/* 0x74 DLL Master Offset Register */
+	u32 sof;		/* 0x78 DLL Slave Offset Register */
+	u32 ms;			/* 0x7C DLL Status Master Register RO */
+	u32 ss0;		/* 0x80 DLL Status Slave 0 Register RO */
+	u32 ss1;		/* 0x80 DLL Status Slave 1 Register RO */
+	u32 ss2;		/* 0x80 DLL Status Slave 2 Register RO */
+	u32 ss3;		/* 0x80 DLL Status Slave 3 Register RO */
+}
+
 void mem_init(void)
 {
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 	struct atmel_mpddr *mpddr = (struct atmel_mpddr *)ATMEL_BASE_MPDDRC;
+	struct atmel_mpddr_dll *mpddr_dll = (struct atmel_mpddr_dll *)ATMEL_BASE_MPDDRC;
 	struct atmel_mpddrc_config ddr2;
 	unsigned int reg;
 	
@@ -442,12 +454,12 @@ void mem_init(void)
 	/* MPDDRC DLL Slave Offset Register: DDR2 configuration */
 	/* Recommended DDR2 settings is 0x1101 (see datasheet) */
 	reg = 0x01010001;
-	writel(reg, &mpddr->dll_sof);
+	writel(reg, &mpddr_dll->sof);
 	
 	/* MPDDRC DLL Master Offset Register (see datasheet) */
 	/* write master + clk90 offset */
 	reg = 0xC5011F07;
-	writel(reg, &mpddr->dll_mo);
+	writel(reg, &mpddr_dll->mo);
 	
 	/* MPDDRC I/O Calibration Register (see datasheet) */
 	/* (DDRCK * 20*10^-9) + 1 */
