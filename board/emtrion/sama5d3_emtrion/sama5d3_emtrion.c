@@ -139,6 +139,7 @@ int get_i2c_scl_pin(void)
 
 void pmic_init(void)
 {
+#if 0
 	uchar value;
 	
 	i2c_init(CONFIG_SYS_I2C_SOFT_SPEED, CONFIG_SYS_I2C_SOFT_SLAVE);
@@ -150,7 +151,9 @@ void pmic_init(void)
 	{
 		puts("Error setting core voltage!\n");
 	}
+#endif
 }
+
 
 void use_crystal_osc_for_slowclk(void)
 {

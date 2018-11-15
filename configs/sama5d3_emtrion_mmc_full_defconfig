@@ -797,11 +797,11 @@ CONFIG_AT91_GPIO=y
 #
 # I2C support
 #
-CONFIG_DM_I2C=y
+# CONFIG_DM_I2C is not set
 # CONFIG_DM_I2C_COMPAT is not set
 # CONFIG_I2C_SET_DEFAULT_BUS_NUM is not set
 # CONFIG_DM_I2C_GPIO is not set
-CONFIG_SYS_I2C=y
+# CONFIG_SYS_I2C is not set
 # CONFIG_SYS_I2C_AT91 is not set
 # CONFIG_SYS_I2C_FSL is not set
 # CONFIG_SYS_I2C_DW is not set
