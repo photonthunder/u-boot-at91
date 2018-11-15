@@ -370,8 +370,9 @@ void spl_board_init(void)
 	for (i=0;i<32;i++)
 	{
 		/* Do not touch PE21 & PE22: Reserved for the NAND */
-		if (i != 21 && i != 22)
-		at91_set_pio_input(AT91_PIO_PORTE, i, 0);
+		if (i != 21 && i != 22) {
+			at91_set_pio_input(AT91_PIO_PORTE, i, 0);
+		}
 	}
 	
 	print_board_rev();

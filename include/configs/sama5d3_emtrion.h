@@ -82,10 +82,10 @@
 
 /* I2C */
 
-#define CONFIG_ATMEL_LEGACY /* needed for gpio header */
+/* #define CONFIG_ATMEL_LEGACY */ /* needed for gpio header */
 /* #define CONFIG_SPL_I2C_SUPPORT */
-#define CONFIG_SYS_I2C_SOFT
-#define CONFIG_SYS_I2C
+/* #define CONFIG_SYS_I2C_SOFT */
+/* #define CONFIG_SYS_I2C */
 
 #ifndef __ASSEMBLY__
 int get_i2c_sda_pin(void);
