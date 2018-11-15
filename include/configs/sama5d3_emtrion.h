@@ -72,9 +72,9 @@
  * Command line configuration.
  */
 /* #include <config_cmd_default.h> */
-#undef CONFIG_CMD_FPGA
-#undef CONFIG_CMD_IMI
-#undef CONFIG_CMD_LOADS
+/* #undef CONFIG_CMD_FPGA */
+/* #undef CONFIG_CMD_IMI */
+/* #undef CONFIG_CMD_LOADS */
 /* #define CONFIG_CMD_PING */
 /* #define CONFIG_CMD_DHCP */
 /* #define CONFIG_CMD_I2C */
@@ -82,12 +82,13 @@
 
 /* I2C */
 
-/* #define CONFIG_ATMEL_LEGACY */ /* needed for gpio header */
+#define CONFIG_ATMEL_LEGACY /* needed for gpio header */
 /* #define CONFIG_SPL_I2C_SUPPORT */
-/* #define CONFIG_SYS_I2C_SOFT */
+#define CONFIG_SYS_I2C_SOFT
 /* #define CONFIG_SYS_I2C */
 
-#ifndef __ASSEMBLY__
+/*
+ #ifndef __ASSEMBLY__
 int get_i2c_sda_pin(void);
 int get_i2c_scl_pin(void);
 #endif
@@ -95,7 +96,7 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SOFT_I2C_GPIO_SCL	get_i2c_scl_pin()
 #define CONFIG_SYS_I2C_SOFT_SPEED	50000
 #define CONFIG_SYS_I2C_SOFT_SLAVE	0
-#define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
+#define I2C_DELAY              udelay(5) */      /* 1/4 I2C clock duration */
 /* #define CONFIG_SYS_NUM_I2C_ADAPTERS 1 */
 
 /* SDRAM */
