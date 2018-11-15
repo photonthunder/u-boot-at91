@@ -82,9 +82,9 @@
 
 /* I2C */
 
-/* #define CONFIG_ATMEL_LEGACY */ /* needed for gpio header */
+#define CONFIG_ATMEL_LEGACY  /* needed for gpio header */
 /* #define CONFIG_SPL_I2C_SUPPORT */
-/* #define CONFIG_SYS_I2C_SOFT */
+#define CONFIG_SYS_I2C_SOFT
 /* #define CONFIG_SYS_I2C */
 
 
@@ -97,7 +97,7 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_I2C_SOFT_SPEED	50000
 #define CONFIG_SYS_I2C_SOFT_SLAVE	0
 #define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
-/* #define CONFIG_SYS_NUM_I2C_ADAPTERS 1 */
+#define CONFIG_SYS_NUM_I2C_ADAPTERS 1
 
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS		1
