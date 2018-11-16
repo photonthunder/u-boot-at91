@@ -10,7 +10,7 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#include <asm/hardware.h>
+/* #include <asm/hardware.h> */
 
 /* #define CONFIG_SYS_TEXT_BASE		0x26f00000 */
 
@@ -83,7 +83,7 @@
 	"update_rootfs=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_update_rootfs}\" ; then run uboot_script_update_rootfs; else echo Bootscript does not define update_rootfs, aborting ; fi ; else echo Please set serverip variable. ; fi\0" \
 	"restore_sys=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_restore_sys}\"; then run uboot_script_restore_sys; else echo Bootscript does not define uboot_script_restore_sys, aborting. ; fi ; else echo Please set serverip variable. ; fi\0"
 #else
-#error "Choose NAND or SD BOOT"
+#warning "not NAND or SD BOOT"
 #endif
 #endif
 
@@ -469,6 +469,7 @@ sizeof(CONFIG_SYS_PROMPT) + 16)
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 
 #endif
+#error "shouldn't be here!!!"
 #endif
 
 #endif
