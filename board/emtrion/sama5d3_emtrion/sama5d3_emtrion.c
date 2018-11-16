@@ -36,12 +36,6 @@ typedef enum {
 	R3A
 } eRevision_t;
 
-static void at91_test_pin_init(void)
-{
-	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
-}
-
 #ifdef CONFIG_NAND_ATMEL
 void sama5d3_nand_hw_init(void)
 {
@@ -371,6 +365,13 @@ void print_board_rev(void)
 
 /* SPL */
 #ifdef CONFIG_SPL_BUILD
+
+static void at91_test_pin_init(void)
+{
+	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+}
+
 void spl_board_init(void)
 {
 	int i;
