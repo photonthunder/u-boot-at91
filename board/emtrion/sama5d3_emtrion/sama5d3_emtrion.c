@@ -36,6 +36,12 @@ typedef enum {
 	R3A
 } eRevision_t;
 
+static void at91_test_pin_init(void)
+{
+	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+}
+
 #ifdef CONFIG_NAND_ATMEL
 void sama5d3_nand_hw_init(void)
 {
@@ -242,6 +248,8 @@ int board_init(void)
 {
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
+	
+	at91_test_pin_init();
 
 	
 #ifdef CONFIG_ATMEL_SPI
