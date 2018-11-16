@@ -513,8 +513,7 @@ dtb-$(CONFIG_TARGET_SAMA5D3_XPLAINED) += \
 	at91-sama5d3_xplained.dtb
 
 dtb-$(CONFIG_TARGET_SAMA5D3_EMTRION) += \
-	sbc-sama5d36-r2.dtb \
-	sbc-sama5d36-r3.dtb
+	sbc-sama5d36.dtb
 
 dtb-$(CONFIG_TARGET_SAMA5D4EK) += \
 	at91-sama5d4ek.dtb
