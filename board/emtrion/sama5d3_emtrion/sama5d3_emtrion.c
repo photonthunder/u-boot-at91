@@ -248,8 +248,6 @@ int board_init(void)
 {
 	/* adress of boot parameters */
 	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
-	
-	at91_test_pin_init();
 
 	
 #ifdef CONFIG_ATMEL_SPI
@@ -376,6 +374,8 @@ void print_board_rev(void)
 void spl_board_init(void)
 {
 	int i;
+	
+	at91_test_pin_init();
 	
 	/* Set all PIO E to input */
 	for (i=0;i<32;i++)
