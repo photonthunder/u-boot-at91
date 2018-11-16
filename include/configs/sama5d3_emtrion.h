@@ -11,6 +11,7 @@
 #define __CONFIG_H
 
 /* #include <asm/hardware.h> */
+#include <asm/arch/sama5d3.h>
 
 /* #define CONFIG_SYS_TEXT_BASE		0x26f00000 */
 
