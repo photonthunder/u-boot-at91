@@ -597,6 +597,8 @@ void *sbrk(ptrdiff_t increment)
 
 	return (void *)old;
 }
+/* The first value returned from sbrk */
+static char* sbrk_base = (char*)(-1);
 
 static void reinit_bin(void)
 {
@@ -699,9 +701,6 @@ static unsigned long trim_threshold   = DEFAULT_TRIM_THRESHOLD;
 static unsigned long top_pad          = DEFAULT_TOP_PAD;
 static unsigned int  n_mmaps_max      = DEFAULT_MMAP_MAX;
 static unsigned long mmap_threshold   = DEFAULT_MMAP_THRESHOLD;
-
-/* The first value returned from sbrk */
-static char* sbrk_base = (char*)(-1);
 
 /* The maximum memory obtained from system via sbrk */
 static unsigned long max_sbrked_mem = 0;
