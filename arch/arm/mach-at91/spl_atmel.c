@@ -23,7 +23,7 @@ static void switch_to_main_crystal_osc(void)
 	tmp &= ~AT91_PMC_MOR_OSCOUNT(0xff);
 	tmp &= ~AT91_PMC_MOR_KEY(0xff);
 	/* tmp |= AT91_PMC_MOR_MOSCEN; */
-	tmp |= AT91_PMC_MOR_OSCBYPASS
+	tmp |= AT91_PMC_MOR_OSCBYPASS;
 	tmp |= AT91_PMC_MOR_OSCOUNT(8);
 	tmp |= AT91_PMC_MOR_KEY(0x37);
 	writel(tmp, &pmc->mor);
