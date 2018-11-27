@@ -217,6 +217,35 @@ void board_debug_uart_init(void)
 #endif /* CONFIG_DEBUG_UART_BOARD_INIT */
 
 #ifdef CONFIG_BOARD_EARLY_INIT_F
+#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) | (0x01 << 16) | (0x01 << 18))
+
+#define EMAC_PINS	((0x01 << 7) | (0x01 << 8))
+
+void at91_special_pio_output_low(void)
+{
+	/* struct at91_pmc *pmc = (struct at91_pmc *) ATMEL_BASE_PMC; */
+	at91_port_t *piob = (at91_port_t *) ATMEL_BASE_PIOB;
+	at91_port_t *pioc = (at91_port_t *) ATMEL_BASE_PIOC;
+	
+	/* writel((1 << ATMEL_ID_PIOB), pmc->pcer); */
+	at91_periph_clk_enable(ATMEL_ID_PIOB);
+	
+	writel(GMAC_PINS, piob->pudr);
+	writel(GMAC_PINS, piob->mux.pio3.ppddr);
+	writel(GMAC_PINS, piob->per);
+	writel(GMAC_PINS, piob->oer);
+	writel(GMAC_PINS, piob->codr);
+	
+	/* writel((1 << ATMEL_ID_PIOC), pmc->pcer); */
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
+	
+	writel(EMAC_PINS, pioc->pudr);
+	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
+	writel(EMAC_PINS, pioc->per);
+	writel(EMAC_PINS, pioc->oer);
+	writel(EMAC_PINS, pioc->codr);
+}
+
 int board_early_init_f(void)
 {
 	at91_periph_clk_enable(ATMEL_ID_PIOA);
@@ -227,6 +256,8 @@ int board_early_init_f(void)
 	
 	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
 	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
+	at91_special_pio_output_low();
 	
 #ifdef CONFIG_DEBUG_UART
 	debug_uart_init();
@@ -239,6 +270,7 @@ int board_early_init_f(void)
 	return 0;
 }
 #endif /* CONFIG_BOARD_EARLY_INIT_F */
+
 
 
 int board_init(void)
@@ -544,33 +576,6 @@ void at91_pmc_init(void)
 #endif
 }
 
-#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) | (0x01 << 16) | (0x01 << 18))
 
-#define EMAC_PINS	((0x01 << 7) | (0x01 << 8))
-
-void at91_special_pio_output_low(void)
-{
-	/* struct at91_pmc *pmc = (struct at91_pmc *) ATMEL_BASE_PMC; */
-	at91_port_t *piob = (at91_port_t *) ATMEL_BASE_PIOB;
-	at91_port_t *pioc = (at91_port_t *) ATMEL_BASE_PIOC;
-	
-	/* writel((1 << ATMEL_ID_PIOB), pmc->pcer); */
-	at91_periph_clk_enable(ATMEL_ID_PIOB);
-	
-	writel(GMAC_PINS, piob->pudr);
-	writel(GMAC_PINS, piob->mux.pio3.ppddr);
-	writel(GMAC_PINS, piob->per);
-	writel(GMAC_PINS, piob->oer);
-	writel(GMAC_PINS, piob->codr);
-	
-	/* writel((1 << ATMEL_ID_PIOC), pmc->pcer); */
-	at91_periph_clk_enable(ATMEL_ID_PIOC);
-	
-	writel(EMAC_PINS, pioc->pudr);
-	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
-	writel(EMAC_PINS, pioc->per);
-	writel(EMAC_PINS, pioc->oer);
-	writel(EMAC_PINS, pioc->codr);
-}
 
 #endif /* CONFIG_SPL_BUILD */

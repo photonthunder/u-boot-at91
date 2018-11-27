@@ -598,6 +598,21 @@ void *sbrk(ptrdiff_t increment)
 	return (void *)old;
 }
 
+static void reinit_bin(void)
+{
+	int i = 0;
+	
+	sbrk_base = (char *)(-1);
+	
+	av_[0] = 0;
+	av_[1] = 0;
+	
+	for (i = 0; i < NAV ; i++) {
+		av_[i*2+2] = bin_at(i);
+		av_[i*2+2+1] = bin_at(i);
+	}
+}
+
 void mem_malloc_init(ulong start, ulong size)
 {
 	mem_malloc_start = start;
@@ -608,6 +623,9 @@ void mem_malloc_init(ulong start, ulong size)
 	      mem_malloc_end);
 #ifdef CONFIG_SYS_MALLOC_CLEAR_ON_INIT
 	memset((void *)mem_malloc_start, 0x0, size);
+#endif
+#if defined CONFIG_SPL_BUILD || defined CONFIG_SKIP_LOWLEVEL_INIT
+	reinit_bin();
 #endif
 	malloc_bin_reloc();
 }

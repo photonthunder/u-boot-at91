@@ -64,21 +64,29 @@ int ddr2_init(const unsigned int base,
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_NOP_CMD, ram_address);
 
 	/* A 200 us is provided to precede any signal toggle */
-	udelay(200);
+	udelay(250);
 
 	/* Issue a NOP command */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_NOP_CMD, ram_address);
+	
+	udelay(1);
 
 	/* Issue an all banks precharge command */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_PRCGALL_CMD, ram_address);
+	
+	udelay(1);
 
 	/* Issue an extended mode register set(EMRS2) to choose operation */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_EXT_LMR_CMD,
 		       ram_address + (0x2 << ba_off));
+	
+	udelay(1);
 
 	/* Issue an extended mode register set(EMRS3) to set EMSR to 0 */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_EXT_LMR_CMD,
 		       ram_address + (0x3 << ba_off));
+	
+	udelay(1);
 
 	/*
 	 * Issue an extended mode register set(EMRS1) to enable DLL and
@@ -86,27 +94,36 @@ int ddr2_init(const unsigned int base,
 	 */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_EXT_LMR_CMD,
 		       ram_address + (0x1 << ba_off));
+	
+	udelay(20);
 
 	/* Enable DLL reset */
 	cr = readl(&mpddr->cr);
 	writel(cr | ATMEL_MPDDRC_CR_DLL_RESET_ENABLED, &mpddr->cr);
 
 	/* A mode register set(MRS) cycle is issued to reset DLL */
-	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_LMR_CMD, ram_address);
+	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_LMR_CMD, ram_address + (0x333 << 12));
+	
+	udelay(1);
 
 	/* Issue an all banks precharge command */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_PRCGALL_CMD, ram_address);
 
 	/* Two auto-refresh (CBR) cycles are provided */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_RFSH_CMD, ram_address);
+	
+	udelay(1);
+	
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_RFSH_CMD, ram_address);
 
+	udelay(1);
+	
 	/* Disable DLL reset */
 	cr = readl(&mpddr->cr);
 	writel(cr & (~ATMEL_MPDDRC_CR_DLL_RESET_ENABLED), &mpddr->cr);
 
 	/* A mode register set (MRS) cycle is issued to disable DLL reset */
-	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_LMR_CMD, ram_address);
+	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_LMR_CMD, ram_address + (0x233 << 12));
 
 	/* Set OCD calibration in default state */
 	cr = readl(&mpddr->cr);
@@ -117,7 +134,9 @@ int ddr2_init(const unsigned int base,
 	 * to OCD default value
 	 */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_EXT_LMR_CMD,
-		       ram_address + (0x1 << ba_off));
+		       ram_address + (0x1 << ba_off) + (0x382 << 12));
+	
+	udelay(1);
 
 	 /* OCD calibration mode exit */
 	cr = readl(&mpddr->cr);
@@ -128,7 +147,9 @@ int ddr2_init(const unsigned int base,
 	 * to enable OCD exit
 	 */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_EXT_LMR_CMD,
-		       ram_address + (0x1 << ba_off));
+		       ram_address + (0x1 << ba_off)+ (0x2 << 12));
+	
+	udelay(1);
 
 	/* A nornal mode command is provided */
 	atmel_mpddr_op(mpddr, ATMEL_MPDDRC_MR_MODE_NORMAL_CMD, ram_address);
@@ -138,6 +159,8 @@ int ddr2_init(const unsigned int base,
 
 	/* Write the refresh rate */
 	writel(mpddr_value->rtr, &mpddr->rtr);
+	
+	udelay(10);
 
 	return 0;
 }

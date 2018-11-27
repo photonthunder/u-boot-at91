@@ -133,7 +133,7 @@ not_used:
 irq:
 fiq:
 1:
-	b	1b			/* hang and never return */
+	bl	1b			/* hang and never return */
 
 #else	/* !CONFIG_SPL_BUILD */
 

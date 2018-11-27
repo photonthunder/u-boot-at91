@@ -116,8 +116,9 @@ void at91_plla_init(u32 pllar)
 {
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 
+	writel((0 | AT91_PMC_PLLAR_29), &pmc->pllar);
 	writel(pllar, &pmc->pllar);
-	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY)))
+	while (!(readl(&pmc->sr) & AT91_PMC_LOCKA))
 		;
 }
 
@@ -147,6 +148,32 @@ void at91_mck_init(u32 mckr)
 
 	while (!(readl(&pmc->sr) & AT91_PMC_MCKRDY))
 		;
+	
+	tmp = readl(&pmc->mckr);
+	tmp &= ~(AT91_PMC_MCKR_CSS_MASK);
+	tmp |= (mckr & AT91_PMC_CSS);
+	writel(tmp, &pmc->mckr);
+	
+	while (!(readl(&pmc->sr) & AT91_PMC_MCKRDY))
+		;
+	
+	/* switch to main oscillator (see at91bootstrap for reference) */
+	if ((readl(&pmc->mckr) & AT91_PMC_MCKR_CSS_MASK) == AT91_PMC_MCKR_CSS_SLOW) {
+		tmp = readl(&pmc->mckr);
+		tmp &= ~AT91_PMC_MCKR_CSS_MASK;
+		tmp |= AT91_PMC_MCKR_CSS_MAIN;
+		writel(tmp, &pmc->mckr);
+		
+		while (!(readl(&pmc->mckr) & AT91_PMC_MCKRDY))
+			;
+		
+		tmp &= ~AT91_PMC_MCKR_PRES_MASK;
+		tmp |= AT91_PMC_PRES_1;
+		writel(tmp, &pmc->mckr);
+		
+		while (!(readl(&pmc->mckr) & AT91_PMC_MCKRDY))
+			;
+	}
 }
 
 /*
