@@ -90,6 +90,15 @@ void s_init(void)
 
 void board_init_f(ulong dummy)
 {
+	at91_periph_clk_enable(ATMEL_ID_PIOA);
+	at91_periph_clk_enable(ATMEL_ID_PIOB);
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
+	at91_periph_clk_enable(ATMEL_ID_PIOD);
+	at91_periph_clk_enable(ATMEL_ID_PIOE);
+	at91_set_pio_output(AT91_PIO_PORTC, 16, 1);
+	at91_set_pio_output(AT91_PIO_PORTC, 17, 0);
+	
+	
 	int ret;
 
 	switch_to_main_crystal_osc();
