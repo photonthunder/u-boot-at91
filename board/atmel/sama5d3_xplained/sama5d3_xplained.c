@@ -85,6 +85,13 @@ int board_late_init(void)
 #ifdef CONFIG_BOARD_EARLY_INIT_F
 int board_early_init_f(void)
 {
+	at91_periph_clk_enable(ATMEL_ID_PIOA);
+	at91_periph_clk_enable(ATMEL_ID_PIOB);
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
+	at91_periph_clk_enable(ATMEL_ID_PIOD);
+	at91_periph_clk_enable(ATMEL_ID_PIOE);
+	at91_set_pio_output(AT91_PIO_PORTC, 16, 1);
+	at91_set_pio_output(AT91_PIO_PORTC, 17, 0);
 #ifdef CONFIG_DEBUG_UART
 	debug_uart_init();
 #endif
