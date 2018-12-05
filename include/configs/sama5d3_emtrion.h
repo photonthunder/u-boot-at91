@@ -181,6 +181,17 @@
 
 #define CONFIG_ATMEL_LEGACY
 
+#ifndef __ASSEMBLY__
+int get_i2c_sda_pin(void);
+int get_i2c_scl_pin(void);
+#endif
+#define CONFIG_I2C_GPIO_SDA	get_i2c_sda_pin()
+#define CONFIG_I2C_GPIO_SCL	get_i2c_scl_pin()
+#define CONFIG_SYS_I2C_SPEED	50000
+#define CONFIG_SYS_I2C_SLAVE	0
+#define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
+/* #define CONFIG_SYS_NUM_I2C_ADAPTERS 1 */
+
 
 #if 0
 
