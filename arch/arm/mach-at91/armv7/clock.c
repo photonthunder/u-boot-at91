@@ -65,13 +65,13 @@ int at91_clock_init(unsigned long main_clock)
 	 * or when using oscillator bypass mode, we must be told the speed
 	 * of the main clock.
 	 */
-	if (!main_clock) {
+/*	if (!main_clock) {
 		do {
 			tmp = readl(&pmc->mcfr);
 		} while (!(tmp & AT91_PMC_MCFR_MAINRDY));
 		tmp &= AT91_PMC_MCFR_MAINF_MASK;
 		main_clock = tmp * (CONFIG_SYS_AT91_SLOW_CLOCK / 16);
-	}
+	}*/
 #endif
 	
 	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
