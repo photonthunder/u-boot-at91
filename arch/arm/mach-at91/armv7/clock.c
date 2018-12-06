@@ -14,6 +14,7 @@
 #include <asm/io.h>
 #include <asm/arch/hardware.h>
 #include <asm/arch/at91_pmc.h>
+#include <asm/arch/gpio.h>
 #include <asm/arch/clk.h>
 
 #if !defined(CONFIG_AT91FAMILY)
@@ -72,6 +73,10 @@ int at91_clock_init(unsigned long main_clock)
 		main_clock = tmp * (CONFIG_SYS_AT91_SLOW_CLOCK / 16);
 	}
 #endif
+	
+	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 	gd->arch.main_clk_rate_hz = main_clock;
 
 	/* report if PLLA is more than mildly overclocked */
