@@ -91,10 +91,7 @@ void s_init(void)
 
 void board_init_f(ulong dummy)
 {
-	at91_periph_clk_enable(ATMEL_ID_PIOB);
-	
-	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	/* at91_periph_clk_enable(ATMEL_ID_PIOB); */
 	
 	int ret;
 
@@ -109,6 +106,9 @@ void board_init_f(ulong dummy)
 	at91_disable_wdt();
 #endif
 
+	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 	/* PMC configuration */
 	at91_pmc_init();
 
