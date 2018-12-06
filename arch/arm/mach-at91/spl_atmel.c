@@ -109,6 +109,9 @@ void board_init_f(ulong dummy)
 
 	at91_clock_init(CONFIG_SYS_AT91_MAIN_CLOCK);
 
+	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 	matrix_init();
 
 	redirect_int_from_saic_to_aic();
