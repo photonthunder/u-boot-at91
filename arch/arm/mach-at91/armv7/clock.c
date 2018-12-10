@@ -123,8 +123,8 @@ void at91_plla_init(u32 pllar)
 	
 	writel((0 | AT91_PMC_PLLAR_29), &pmc->pllar);
 	writel(pllar, &pmc->pllar);
-	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY)))
-		;
+	//while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY))) { }
+	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA))) { }
 }
 
 void at91_mck_init(u32 mckr)
