@@ -92,12 +92,7 @@ void s_init(void)
 void board_init_f(ulong dummy)
 {
 	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 14, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 16, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 17, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 18, 0);
+
 	int ret;
 
 	switch_to_main_crystal_osc();
@@ -114,10 +109,13 @@ void board_init_f(ulong dummy)
 	/* PMC configuration */
 	at91_pmc_init();
 	
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 	at91_clock_init(CONFIG_SYS_AT91_MAIN_CLOCK);
-
-/*	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);*/
+	
+	at91_set_pio_output(AT91_PIO_PORTD, 16, 0);
+	at91_set_pio_output(AT91_PIO_PORTD, 17, 0);
+	at91_set_pio_output(AT91_PIO_PORTD, 18, 0);
 	
 	matrix_init();
 

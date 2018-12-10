@@ -55,6 +55,7 @@ static u32 at91_pll_rate(u32 freq, u32 reg)
 
 int at91_clock_init(unsigned long main_clock)
 {
+	at91_set_pio_output(AT91_PIO_PORTD, 14, 0);
 	unsigned freq, mckr;
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 #ifndef CONFIG_SYS_AT91_MAIN_CLOCK
@@ -74,7 +75,7 @@ int at91_clock_init(unsigned long main_clock)
 	}
 #endif
 #warning Got to clock.c
-	
+	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
 	
 	gd->arch.main_clk_rate_hz = main_clock;
 
