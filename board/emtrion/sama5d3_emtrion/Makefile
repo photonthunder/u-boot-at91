@@ -11,3 +11,4 @@
 # Bo Shen <voice.shen@atmel.com>
 
 obj-y += sama5d3_emtrion.o
+obj-y += board.o
