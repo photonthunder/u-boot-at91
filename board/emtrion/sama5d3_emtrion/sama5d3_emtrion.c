@@ -196,10 +196,11 @@ void at91_pmc_init(void)
 			AT91_PMC_PLLXR_MUL(43) |
 			AT91_PMC_PLLXR_DIV(1);
 	at91_plla_init(tmp);
+	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
 	
 	at91_pllicpr_init(AT91_PMC_IPLL_PLLA(0x3));
 	
-	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
+	at91_set_pio_output(AT91_PIO_PORTD, 16, 0);
 	
 	/* prevents sytem halt after romboot */
 	udelay(10);
@@ -207,12 +208,12 @@ void at91_pmc_init(void)
 	tmp = AT91_PMC_MCKR_MDIV_4 | AT91_PMC_MCKR_CSS_MAIN;
 	at91_mck_init(tmp);
 	
-	
+	at91_set_pio_output(AT91_PIO_PORTD, 17, 0);
 	
 	tmp = AT91_PMC_MCKR_MDIV_4 | AT91_PMC_MCKR_CSS_PLLA;
 	at91_mck_init(tmp);
 	
 	udelay(1000);
-	at91_set_pio_output(AT91_PIO_PORTD, 16, 0);
+	
 }
 #endif
