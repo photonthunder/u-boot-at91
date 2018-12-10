@@ -109,7 +109,7 @@ void board_init_f(ulong dummy)
 	/* disable watchdog */
 	at91_disable_wdt();
 #endif
-	
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
 	
 	/* PMC configuration */
 	at91_pmc_init();
