@@ -97,6 +97,8 @@ void board_init_f(ulong dummy)
 
 	switch_to_main_crystal_osc();
 
+	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 #ifdef CONFIG_SAMA5D2
 	configure_2nd_sram_as_l2_cache();
 #endif
@@ -105,11 +107,12 @@ void board_init_f(ulong dummy)
 	/* disable watchdog */
 	at91_disable_wdt();
 #endif
+	at91_set_pio_output(AT91_PIO_PORTD, 14, 0);
 	
 	/* PMC configuration */
 	at91_pmc_init();
 	
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
 	
 	at91_clock_init(CONFIG_SYS_AT91_MAIN_CLOCK);
 	
