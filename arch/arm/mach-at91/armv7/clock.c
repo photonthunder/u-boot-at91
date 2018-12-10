@@ -74,7 +74,7 @@ int at91_clock_init(unsigned long main_clock)
 	}
 #endif
 #warning Got to clock.c
-	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
+	
 	
 	gd->arch.main_clk_rate_hz = main_clock;
 
