@@ -74,8 +74,6 @@ int at91_clock_init(unsigned long main_clock)
 		main_clock = tmp * (CONFIG_SYS_AT91_SLOW_CLOCK / 16);
 	}
 #endif
-#warning Got to clock.c
-	
 	
 	gd->arch.main_clk_rate_hz = main_clock;
 
@@ -121,10 +119,8 @@ void at91_plla_init(u32 pllar)
 {
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 	
-	//writel((0 | AT91_PMC_PLLAR_29), &pmc->pllar);
 	writel(pllar, &pmc->pllar);
 	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY))) { }
-	//while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA))) { }
 }
 
 void at91_mck_init(u32 mckr)
