@@ -23,7 +23,9 @@ static void switch_to_main_crystal_osc(void)
 	tmp = readl(&pmc->mor);
 	tmp &= ~AT91_PMC_MOR_OSCOUNT(0xff);
 	tmp &= ~AT91_PMC_MOR_KEY(0xff);
-	/* tmp |= AT91_PMC_MOR_MOSCEN; // DON'T ENABLE */
+#ifndef TARGET_SAMA5D3_EMTRION
+	tmp |= AT91_PMC_MOR_MOSCEN;
+#endif
 	tmp |= AT91_PMC_MOR_OSCBYPASS;
 	tmp |= AT91_PMC_MOR_OSCOUNT(8);
 	tmp |= AT91_PMC_MOR_KEY(0x37);
@@ -45,14 +47,13 @@ static void switch_to_main_crystal_osc(void)
 		hang();
 #endif
 
-	/*
+#ifndef TARGET_SAMA5D3_EMTRION
 	tmp = readl(&pmc->mor);
 	tmp &= ~AT91_PMC_MOR_OSCBYPASS;
 	tmp &= ~AT91_PMC_MOR_KEY(0xff);
 	tmp |= AT91_PMC_MOR_KEY(0x37);
 	writel(tmp, &pmc->mor);
-	 */
-
+#endif
 	
 	tmp = readl(&pmc->mor);
 	tmp |= AT91_PMC_MOR_MOSCSEL;
