@@ -127,7 +127,7 @@ void at91_mck_init(u32 mckr)
 	u32 tmp;
 
 	tmp = readl(&pmc->mckr);
-#ifdef TARGET_SAMA5D3_EMTRION
+#ifdef CONFIG_TARGET_SAMA5D3_EMTRION
 	tmp &= ~(AT91_PMC_MCKR_PRES_MASK |
 #else
 	tmp &= ~(AT91_PMC_MCKR_CSS_MASK  |
@@ -139,7 +139,7 @@ void at91_mck_init(u32 mckr)
 	tmp &= ~AT91_PMC_MCKR_H32MXDIV;
 #endif
 
-#ifdef TARGET_SAMA5D3_EMTRION
+#ifdef CONFIG_TARGET_SAMA5D3_EMTRION
 	tmp |= mckr & (AT91_PMC_MCKR_PRES_MASK |
 #else
 	tmp |= mckr & (AT91_PMC_MCKR_CSS_MASK  |
@@ -155,7 +155,7 @@ void at91_mck_init(u32 mckr)
 
 	while (!(readl(&pmc->sr) & AT91_PMC_MCKRDY))
 		;
-#ifdef TARGET_SAMA5D3_EMTRION
+#ifdef CONFIG_TARGET_SAMA5D3_EMTRION
 #warning got A
 	/* switch to main oscillator (see at91bootstrap for reference) */
 	if ((readl(&pmc->mckr) & AT91_PMC_MCKR_CSS_MASK) == AT91_PMC_MCKR_CSS_SLOW) {
