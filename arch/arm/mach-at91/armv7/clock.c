@@ -14,7 +14,6 @@
 #include <asm/io.h>
 #include <asm/arch/hardware.h>
 #include <asm/arch/at91_pmc.h>
-#include <asm/arch/gpio.h>
 #include <asm/arch/clk.h>
 
 #if !defined(CONFIG_AT91FAMILY)
@@ -55,7 +54,6 @@ static u32 at91_pll_rate(u32 freq, u32 reg)
 
 int at91_clock_init(unsigned long main_clock)
 {
-	
 	unsigned freq, mckr;
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 #ifndef CONFIG_SYS_AT91_MAIN_CLOCK
@@ -74,7 +72,6 @@ int at91_clock_init(unsigned long main_clock)
 		main_clock = tmp * (CONFIG_SYS_AT91_SLOW_CLOCK / 16);
 	}
 #endif
-	
 	gd->arch.main_clk_rate_hz = main_clock;
 
 	/* report if PLLA is more than mildly overclocked */
@@ -118,9 +115,10 @@ int at91_clock_init(unsigned long main_clock)
 void at91_plla_init(u32 pllar)
 {
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
-	
+
 	writel(pllar, &pmc->pllar);
-	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY))) { }
+	while (!(readl(&pmc->sr) & (AT91_PMC_LOCKA | AT91_PMC_MCKRDY)))
+		;
 }
 
 void at91_mck_init(u32 mckr)

@@ -99,21 +99,21 @@ void board_init_f(ulong dummy)
 	int ret;
 
 	switch_to_main_crystal_osc();
-	
+
 #ifdef CONFIG_SAMA5D2
 	configure_2nd_sram_as_l2_cache();
 #endif
-	
+
 #if !defined(CONFIG_AT91SAM9_WATCHDOG)
 	/* disable watchdog */
 	at91_disable_wdt();
 #endif
-	
+
 	/* PMC configuration */
 	at91_pmc_init();
-	
+
 	at91_clock_init(CONFIG_SYS_AT91_MAIN_CLOCK);
-	
+
 	matrix_init();
 
 	redirect_int_from_saic_to_aic();
