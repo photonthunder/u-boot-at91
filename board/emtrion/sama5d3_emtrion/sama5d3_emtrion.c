@@ -83,6 +83,50 @@ int board_late_init(void)
 #endif
 
 #ifdef CONFIG_BOARD_EARLY_INIT_F
+static void use_crystal_osc_for_slowclk(void)
+{
+	struct at91_sckc *sckc = (struct at91_sckc *)ATMEL_BASE_SCKCR;
+	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
+	u32 tmp;
+	
+	tmp = readl(&pmc->mckr);
+	
+	/* check, if we are running on an other clock source than the slow clock.
+	 * If we run on slow clock, we can't switch the source of that, otherwise
+	 * the cpu would stop working, so exit this function.
+	 */
+	if (tmp & (1 << AT91_PMC_MCKR_CSS_SLOW)) {
+		printf("Can't switch slow clock source to XTAL.\n");
+		return;
+	}
+	
+	tmp = readl(&sckc->cr);
+	
+	/* check if crystal oscillator is on, activate it if not */
+	if ((tmp & (1 << AT91_SCKC_CR_OSC32EN)) == 0) {
+		tmp |= (1 << AT91_SCKC_CR_OSC32EN);
+		writel(tmp, &sckc->cr);
+		
+		/* wait until the oscillator is stabilized */
+		udelay(1000);
+	}
+	
+	/* switch to the crystal ocillator, if not already */
+	if ((tmp & (1 << AT91_SCKC_CR_OSCSEL)) == 0) {
+		tmp |= (1 << AT91_SCKC_CR_OSCSEL);
+		writel(tmp, &sckc->cr);
+		
+		/* wait at least 5 slowclock cycles (~152 us)*/
+		udelay(200);
+	}
+	
+	/* check, if rc-osc is running, disable it */
+	if (tmp & (1 << AT91_SCKC_CR_RCEN)) {
+		tmp &= ~(1 << AT91_SCKC_CR_RCEN);
+		writel(tmp, &sckc->cr);
+	}
+}
+
 int board_early_init_f(void)
 {
 	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
@@ -96,6 +140,7 @@ int board_early_init_f(void)
 #ifdef CONFIG_DEBUG_UART
 	debug_uart_init();
 #endif
+	use_crystal_osc_for_slowclk();
 	return 0;
 }
 #endif
