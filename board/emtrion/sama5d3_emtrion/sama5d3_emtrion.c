@@ -233,7 +233,7 @@ static void ethernet_pins(void)
 	at91_periph_clk_enable(ATMEL_ID_PIOB);
 	
 	writel(GMAC_PINS, piob->pudr);
-	writel(GMAC_PINS, piob->pio3.ppddr);
+	writel(GMAC_PINS, piob->mux.pio3.ppddr);
 	writel(GMAC_PINS, piob->per);
 	writel(GMAC_PINS, piob->oer);
 	writel(GMAC_PINS, piob->codr);
@@ -241,7 +241,7 @@ static void ethernet_pins(void)
 	at91_periph_clk_enable(ATMEL_ID_PIOC);
 	
 	writel(EMAC_PINS, pioc->pudr);
-	writel(EMAC_PINS, pioc->pio3.ppddr);
+	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
 	writel(EMAC_PINS, pioc->per);
 	writel(EMAC_PINS, pioc->oer);
 	writel(EMAC_PINS, pioc->codr);
