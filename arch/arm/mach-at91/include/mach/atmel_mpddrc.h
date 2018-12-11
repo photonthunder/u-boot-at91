@@ -58,7 +58,7 @@ struct atmel_mpddr {
 	u32 dll_ss1;		/* 0x84 DLL Status Slave 1 Register RO */
 	u32 dll_ss2;		/* 0x88 DLL Status Slave 2 Register RO */
 	u32 dll_ss3;		/* 0x8C DLL Status Slave 3 Register RO */
-	u32 reserved3[21];	/* 0x90 - 0xE0 */
+	u32 reserved2a[21];	/* 0x90 - 0xE0 */
 #else
 	u32 reserved2[33];
 #endif
