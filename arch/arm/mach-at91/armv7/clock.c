@@ -129,16 +129,16 @@ void at91_mck_init(u32 mckr)
 	u32 tmp;
 
 	tmp = readl(&pmc->mckr);
-	tmp &= ~(AT91_PMC_MCKR_CSS_MASK  |
-		 AT91_PMC_MCKR_PRES_MASK |
+	/*tmp &= ~(AT91_PMC_MCKR_CSS_MASK  | */
+	tmp &= ~(AT91_PMC_MCKR_PRES_MASK |
 		 AT91_PMC_MCKR_MDIV_MASK |
 		 AT91_PMC_MCKR_PLLADIV_2);
 #ifdef CPU_HAS_H32MXDIV
 	tmp &= ~AT91_PMC_MCKR_H32MXDIV;
 #endif
 
-	tmp |= mckr & (AT91_PMC_MCKR_CSS_MASK  |
-		       AT91_PMC_MCKR_PRES_MASK |
+	/*tmp |= mckr & (AT91_PMC_MCKR_CSS_MASK  | */
+	tmp |= mckr & (AT91_PMC_MCKR_PRES_MASK |
 		       AT91_PMC_MCKR_MDIV_MASK |
 		       AT91_PMC_MCKR_PLLADIV_2);
 #ifdef CPU_HAS_H32MXDIV
@@ -149,6 +149,24 @@ void at91_mck_init(u32 mckr)
 
 	while (!(readl(&pmc->sr) & AT91_PMC_MCKRDY))
 		;
+	
+	/* switch to main oscillator (see at91bootstrap for reference) */
+	if ((readl(&pmc->mckr) & AT91_PMC_MCKR_CSS_MASK) == AT91_PMC_MCKR_CSS_SLOW) {
+		tmp = readl(&pmc->mckr);
+		tmp &= ~AT91_PMC_MCKR_CSS_MASK;
+		tmp |= AT91_PMC_MCKR_CSS_MAIN;
+		writel(tmp, &pmc->mckr);
+		
+		while (!(readl(&pmc->mckr) & AT91_PMC_MCKRDY))
+			;
+		
+		tmp &= ~AT91_PMC_MCKR_PRES_MASK;
+		tmp |= AT91_PMC_PRES_1;
+		writel(tmp, &pmc->mckr);
+		
+		while (!(readl(&pmc->mckr) & AT91_PMC_MCKRDY))
+			;
+	}
 }
 
 /*
