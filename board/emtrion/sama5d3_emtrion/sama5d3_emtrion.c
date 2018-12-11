@@ -206,8 +206,8 @@ void mem_init(void)
 	writel(reg, &mpddr->dll_mo);
 	
 	/* MPDDRC I/O Calibration Register */
-	reg = ATMEL_MPDDRC_RDIV_DDR2_RZQ_50
-			| ATMEL_MPDDRC_TZQIO_4; /* (DDRCK * 20*10^-9) + 1 */
+	reg = ATMEL_MPDDRC_IO_CALIBR_DDR2_RZQ_52
+			| ATMEL_MPDDRC_IO_CALIBR_TZQIO_(4); /* (DDRCK * 20*10^-9) + 1 */
 	writel(reg, &mpddr->io_calibr);
 	
 	/* DDRAM2 Controller initialize */
