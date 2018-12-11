@@ -123,6 +123,7 @@ void at91_mci_hw_init(void)
 	at91_pio3_set_a_periph(AT91_PIO_PORTD, 9, 0);        /* MCI0 CLK */
 
 #ifdef TARGET_SAMA5D3_EMTRION
+#warning here C
 	at91_pio3_set_a_periph(AT91_PIO_PORTB,19, 0);        /* MCI1 CMD */
 	at91_pio3_set_a_periph(AT91_PIO_PORTB,20, 0);        /* MCI1 DA0 */
 	at91_pio3_set_a_periph(AT91_PIO_PORTB,21, 0);        /* MCI1 DA1 */

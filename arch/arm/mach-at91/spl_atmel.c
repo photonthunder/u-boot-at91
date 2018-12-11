@@ -48,6 +48,7 @@ static void switch_to_main_crystal_osc(void)
 #endif
 
 #ifndef TARGET_SAMA5D3_EMTRION
+#warning got B
 	tmp = readl(&pmc->mor);
 	tmp &= ~AT91_PMC_MOR_OSCBYPASS;
 	tmp &= ~AT91_PMC_MOR_KEY(0xff);
