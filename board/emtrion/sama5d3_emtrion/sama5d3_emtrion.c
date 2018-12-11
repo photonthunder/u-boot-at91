@@ -143,7 +143,7 @@ static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
 	ddr2->md = (ATMEL_MPDDRC_MD_DBW_32_BITS | ATMEL_MPDDRC_MD_DDR2_SDRAM);
 
 	ddr2->cr = (ATMEL_MPDDRC_CR_NC_COL_10 |
-		    ATMEL_MPDDRC_CR_NR_ROW_14 |
+		    ATMEL_MPDDRC_CR_NR_ROW_13 |
 		    ATMEL_MPDDRC_CR_CAS_DDR_CAS3 |
 		    ATMEL_MPDDRC_CR_ENRDM_ON |
 		    ATMEL_MPDDRC_CR_NB_8BANKS |
@@ -162,24 +162,23 @@ static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
 		      8 << ATMEL_MPDDRC_TPR0_TRC_OFFSET |
 		      2 << ATMEL_MPDDRC_TPR0_TRP_OFFSET |
 		      2 << ATMEL_MPDDRC_TPR0_TRRD_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TWTR_OFFSET |
+		      1 << ATMEL_MPDDRC_TPR0_TWTR_OFFSET |
 		      2 << ATMEL_MPDDRC_TPR0_TMRD_OFFSET);
 
 	ddr2->tpr1 = (2 << ATMEL_MPDDRC_TPR1_TXP_OFFSET |
 		      200 << ATMEL_MPDDRC_TPR1_TXSRD_OFFSET |
-		      28 << ATMEL_MPDDRC_TPR1_TXSNR_OFFSET |
-		      26 << ATMEL_MPDDRC_TPR1_TRFC_OFFSET);
+		      18 << ATMEL_MPDDRC_TPR1_TXSNR_OFFSET |
+		      17 << ATMEL_MPDDRC_TPR1_TRFC_OFFSET);
 
 	ddr2->tpr2 = (7 << ATMEL_MPDDRC_TPR2_TFAW_OFFSET |
 		      2 << ATMEL_MPDDRC_TPR2_TRTP_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR2_TRPA_OFFSET |
-		      7 << ATMEL_MPDDRC_TPR2_TXARDS_OFFSET |
-		      8 << ATMEL_MPDDRC_TPR2_TXARD_OFFSET);
+		      3 << ATMEL_MPDDRC_TPR2_TRPA_OFFSET |
+		      8 << ATMEL_MPDDRC_TPR2_TXARDS_OFFSET |
+		      2 << ATMEL_MPDDRC_TPR2_TXARD_OFFSET);
 }
 
 void mem_init(void)
 {
-	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 	struct atmel_mpddr *mpddr = (struct atmel_mpddr *)ATMEL_BASE_MPDDRC;
 	struct atmel_mpddrc_config ddr2;
 	unsigned int reg;
