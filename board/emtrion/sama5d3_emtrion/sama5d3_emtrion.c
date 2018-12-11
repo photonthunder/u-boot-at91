@@ -125,6 +125,27 @@ int dram_init(void)
 	return 0;
 }
 
+typedef enum {
+	Rev2,
+	Rev3Plus
+} eRevision_t;
+
+eRevision_t get_board_revision(void)
+{
+	/* init PINC20 as input with pull-up enabled */
+	at91_set_pio_input(AT91_PIO_PORTC, 20, 1);
+	
+	/* we have a R2A board, if value is high, otherwise
+	 * it is a R3A board
+	 */
+	
+	if (at91_get_pio_value(AT91_PIO_PORTC, 20) == 1) {
+		return Rev2;
+	} else {
+		return Rev3Plus;
+	}
+}
+
 static void print_board_rev(void)
 {
 	int temp;
@@ -132,10 +153,10 @@ static void print_board_rev(void)
 	temp = get_board_revision();
 	printf("Board Revision: ");
 	
-	if (temp == R2A) {
-		printf("R2\n");
+	if (temp == Rev2) {
+		printf("Rev2\n");
 	} else {
-		printf("R3+\n");
+		printf("Rev3Plus\n");
 	}
 }
 
