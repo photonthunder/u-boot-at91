@@ -227,10 +227,11 @@ static void print_board_rev(void)
 
 static void ethernet_pins(void)
 {
+	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 	struct at91_port *piob = (struct at91_port *) ATMEL_BASE_PIOB;
 	struct at91_port *pioc = (struct at91_port *) ATMEL_BASE_PIOC;
 	
-	at91_periph_clk_enable(ATMEL_ID_PIOB);
+	writel(0x01 << ATMEL_ID_PIOB, &pmc->pcer);
 	
 	writel(GMAC_PINS, piob->pudr);
 	writel(GMAC_PINS, piob->mux.pio3.ppddr);
@@ -238,7 +239,7 @@ static void ethernet_pins(void)
 	writel(GMAC_PINS, piob->oer);
 	writel(GMAC_PINS, piob->codr);
 	
-	at91_periph_clk_enable(ATMEL_ID_PIOC);
+	writel(0x01 << ATMEL_ID_PIOC, &pmc->pcer);
 	
 	writel(EMAC_PINS, pioc->pudr);
 	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
