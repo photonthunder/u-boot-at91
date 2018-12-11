@@ -128,15 +128,15 @@ int dram_init(void)
 typedef enum {
 	Rev2,
 	Rev3Plus
-} eRevision_t;
+} BoardRevision_t;
 
-eRevision_t get_board_revision(void)
+BoardRevision_t get_board_revision(void)
 {
 	/* init PINC20 as input with pull-up enabled */
 	at91_set_pio_input(AT91_PIO_PORTC, 20, 1);
 	
-	/* we have a R2A board, if value is high, otherwise
-	 * it is a R3A board
+	/* we have a Rev2 board, if value is high, otherwise
+	 * it is a Rev3Plus board
 	 */
 	
 	if (at91_get_pio_value(AT91_PIO_PORTC, 20) == 1) {
@@ -148,7 +148,7 @@ eRevision_t get_board_revision(void)
 
 static void print_board_rev(void)
 {
-	int temp;
+	BoardRevision_t temp;
 	
 	temp = get_board_revision();
 	printf("Board Revision: ");
