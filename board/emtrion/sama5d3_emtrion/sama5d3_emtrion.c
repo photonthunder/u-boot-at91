@@ -125,6 +125,9 @@ int dram_init(void)
 	return 0;
 }
 
+/* SPL */
+#ifdef CONFIG_SPL_BUILD
+
 typedef enum {
 	Rev2,
 	Rev3Plus
@@ -132,6 +135,7 @@ typedef enum {
 
 BoardRevision_t get_board_revision(void)
 {
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
 	/* init PINC20 as input with pull-up enabled */
 	at91_set_pio_input(AT91_PIO_PORTC, 20, 1);
 	
@@ -170,8 +174,6 @@ static void setPortEtoInput(void) {
 	}
 }
 
-/* SPL */
-#ifdef CONFIG_SPL_BUILD
 void spl_board_init(void)
 {
 	setPortEtoInput();
