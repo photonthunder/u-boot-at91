@@ -179,17 +179,43 @@ static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
 
 void mem_init(void)
 {
+	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
+	struct atmel_mpddr *mpddr = (struct atmel_mpddr *)ATMEL_BASE_MPDDRC;
 	struct atmel_mpddrc_config ddr2;
+	unsigned int reg;
 
 	ddr2_conf(&ddr2);
 
 	/* Enable MPDDR clock */
 	at91_periph_clk_enable(ATMEL_ID_MPDDRC);
 	at91_system_clk_enable(AT91_PMC_DDR);
-
+	
+	/* Init the special (magic) registers for sama5d3x */
+	/* MPDDRC DLL Slave Offset Register: DDR2 configuration */
+	reg = ATMEL_MPDDRC_S0OFF_1
+			| ATMEL_MPDDRC_S2OFF_1
+			| ATMEL_MPDDRC_S3OFF_1;
+	writel(reg, &mpddr->dll_sof);
+	
+	/* MPDDRC DLL Master Offset Register */
+	/* write master + clk90 offset */
+	reg = ATMEL_MPDDRC_MOFF_7
+			| ATMEL_MPDDRC_CLK90OFF_31
+			| ATMEL_MPDDRC_SELOFF_ENABLED
+			| ATMEL_MPDDRC_KEY;
+	writel(reg, &mpddr->dll_mo);
+	
+	/* MPDDRC I/O Calibration Register */
+	reg = ATMEL_MPDDRC_RDIV_DDR2_RZQ_50
+			| ATMEL_MPDDRC_TZQIO_4; /* (DDRCK * 20*10^-9) + 1 */
+	writel(reg, &mpddr->io_calibr);
+	
 	/* DDRAM2 Controller initialize */
 	ddr2_init(ATMEL_BASE_MPDDRC, ATMEL_BASE_DDRCS, &ddr2);
+	udelay(2000);
 }
+
+
 
 void at91_pmc_init(void)
 {

@@ -49,7 +49,19 @@ struct atmel_mpddr {
 	u32 bdw_port0123;	/* 0x54: Bandwidth Port 0/1/2/3 Register */
 	u32 bdw_port4567;	/* 0x58: Bandwidth Port 4/5/6/7 Register */
 	u32 rd_data_path;	/* 0x5c: Read Datapath Register */
+#if CONFIG_TARGET_SAMA5D3_EMTRION
+	u32 reserved2[5];	/* 0x60 - 0x70 */
+	u32 dll_mo;			/* 0x74 DLL Master Offset Register */
+	u32 dll_sof;		/* 0x78 DLL Slave Offset Register */
+	u32 dll_ms;			/* 0x7C DLL Status Master Register RO */
+	u32 dll_ss0;		/* 0x80 DLL Status Slave 0 Register RO */
+	u32 dll_ss1;		/* 0x84 DLL Status Slave 1 Register RO */
+	u32 dll_ss2;		/* 0x88 DLL Status Slave 2 Register RO */
+	u32 dll_ss3;		/* 0x8C DLL Status Slave 3 Register RO */
+	u32 reserved3[21];	/* 0x90 - 0xE0 */
+#else
 	u32 reserved2[33];
+#endif
 	u32 wpmr;		/* 0xe4: Write Protection Mode Register */
 	u32 wpsr;		/* 0xe8: Write Protection Status Register */
 	u32 reserved3[4];
@@ -205,5 +217,30 @@ int ddr3_init(const unsigned int base,
 #define ATMEL_MPDDRC_RD_DATA_PATH_SHIFT_ONE_CYCLE	0x1
 #define ATMEL_MPDDRC_RD_DATA_PATH_SHIFT_TWO_CYCLE	0x2
 #define ATMEL_MPDDRC_RD_DATA_PATH_SHIFT_THREE_CYCLE	0x3
+
+#if CONFIG_TARGET_SAMA5D3_EMTRION
+/* DLL Master Offset Register (offs: 0x74) (from at91bootstrap) */
+#define ATMEL_MPDDRC_MOFF(value)    		(value << 0)
+#define ATMEL_MPDDRC_MOFF_1 				(0x1UL << 0)
+#define ATMEL_MPDDRC_MOFF_7 				(0x7UL << 0)
+#define ATMEL_MPDDRC_CLK90OFF(value)		(value << 8)
+#define ATMEL_MPDDRC_CLK90OFF_1 	    	(0x1UL << 8)
+#define ATMEL_MPDDRC_CLK90OFF_31		    (0x1FUL << 8)
+#define ATMEL_MPDDRC_SELOFF 				(0x1UL << 16)
+#define ATMEL_MPDDRC_SELOFF_DISABLED	    (0x0UL << 16)
+#define ATMEL_MPDDRC_SELOFF_ENABLED 		(0x1UL << 16)
+#define ATMEL_MPDDRC_KEY    				(0xC5UL << 24)
+
+/* DLL Slave Offset Register (offs: 0x78) (from at91bootstrap) */
+#define ATMEL_MPDDRC_S0OFF_1    (0x1UL << 0)
+#define ATMEL_MPDDRC_S1OFF_1    (0x1UL << 8)
+#define ATMEL_MPDDRC_S2OFF_1    (0x1UL << 16)
+#define ATMEL_MPDDRC_S3OFF_1    (0x1UL << 24)
+
+#define ATMEL_MPDDRC_S0OFF(value)   (value << 0)
+#define ATMEL_MPDDRC_S1OFF(value)   (value << 8)
+#define ATMEL_MPDDRC_S2OFF(value)   (value << 16)
+#define ATMEL_MPDDRC_S3OFF(value)   (value << 24)
+#endif
 
 #endif

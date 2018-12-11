@@ -156,7 +156,6 @@ void at91_mck_init(u32 mckr)
 	while (!(readl(&pmc->sr) & AT91_PMC_MCKRDY))
 		;
 #ifdef CONFIG_TARGET_SAMA5D3_EMTRION
-#warning got A
 	/* switch to main oscillator (see at91bootstrap for reference) */
 	if ((readl(&pmc->mckr) & AT91_PMC_MCKR_CSS_MASK) == AT91_PMC_MCKR_CSS_SLOW) {
 		tmp = readl(&pmc->mckr);
