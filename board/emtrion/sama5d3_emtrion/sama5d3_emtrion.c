@@ -174,6 +174,16 @@ int dram_init(void)
 /* SPL */
 #ifdef CONFIG_SPL_BUILD
 
+static void setPortEtoInput(void) {
+	int i;
+	for (i=0; i<32; i++) {
+		/* Do not touch PE21 & PE22: Reserved for the NAND */
+		if (i != 21 && i != 22) {
+			at91_set_pio_input(AT91_PIO_PORTE, i, 0);
+		}
+	}
+}
+
 typedef enum {
 	Rev2,
 	Rev3Plus
@@ -210,20 +220,38 @@ static void print_board_rev(void)
 	}
 }
 
-static void setPortEtoInput(void) {
-	int i;
-	for (i=0; i<32; i++) {
-		/* Do not touch PE21 & PE22: Reserved for the NAND */
-		if (i != 21 && i != 22) {
-			at91_set_pio_input(AT91_PIO_PORTE, i, 0);
-		}
-	}
+#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) \
+| (0x01 << 16) | (0x01 << 18))
+
+#define EMAC_PINS	((0x01 << 7) | (0x01 << 8))
+
+static void ethernet_pins(void)
+{
+	struct at91_port *piob = (struct at91_port *) ATMEL_BASE_PIOB;
+	struct at91_port *pioc = (struct at91_port *) ATMEL_BASE_PIOC;
+	
+	at91_periph_clk_enable(ATMEL_ID_PIOB);
+	
+	writel(GMAC_PINS, piob->pudr);
+	writel(GMAC_PINS, piob->ppddr);
+	writel(GMAC_PINS, piob->per);
+	writel(GMAC_PINS, piob->oer);
+	writel(GMAC_PINS, piob->codr);
+	
+	at91_periph_clk_enable(ATMEL_ID_PIOC);
+	
+	writel(EMAC_PINS, pioc->pudr);
+	writel(EMAC_PINS, pioc->ppddr);
+	writel(EMAC_PINS, pioc->per);
+	writel(EMAC_PINS, pioc->oer);
+	writel(EMAC_PINS, pioc->codr);
 }
 
 void spl_board_init(void)
 {
 	setPortEtoInput();
 	print_board_rev();
+	ethernet_pins();
 #ifdef CONFIG_SD_BOOT
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 	sama5d3_xplained_mci0_hw_init();

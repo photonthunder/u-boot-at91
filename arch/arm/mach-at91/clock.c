@@ -16,6 +16,7 @@ void at91_periph_clk_enable(int id)
 	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
 
 #ifdef CPU_HAS_PCR
+#warning I don't want to be here
 	u32 regval;
 	u32 div_value;
 
