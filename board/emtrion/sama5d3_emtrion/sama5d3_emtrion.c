@@ -125,10 +125,36 @@ int dram_init(void)
 	return 0;
 }
 
+static void print_board_rev(void)
+{
+	int temp;
+	
+	temp = get_board_revision();
+	printf("Board Revision: ");
+	
+	if (temp == R2A) {
+		printf("R2\n");
+	} else {
+		printf("R3+\n");
+	}
+}
+
+static void setPortEtoInput(void) {
+	int i;
+	for (i=0; i<32; i++) {
+		/* Do not touch PE21 & PE22: Reserved for the NAND */
+		if (i != 21 && i != 22) {
+			at91_set_pio_input(AT91_PIO_PORTE, i, 0);
+		}
+	}
+}
+
 /* SPL */
 #ifdef CONFIG_SPL_BUILD
 void spl_board_init(void)
 {
+	setPortEtoInput();
+	print_board_rev();
 #ifdef CONFIG_SD_BOOT
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 	sama5d3_xplained_mci0_hw_init();
