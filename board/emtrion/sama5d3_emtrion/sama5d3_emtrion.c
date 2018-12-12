@@ -61,6 +61,31 @@ static void sama5d3_xplained_usb_hw_init(void)
 }
 #endif
 
+/* SPI chip select control */
+#ifdef CONFIG_ATMEL_SPI
+#include <spi.h>
+int spi_cs_is_valid(unsigned int bus, unsigned int cs)
+{
+	return bus == 0 && cs < 1;
+}
+
+void spi_cs_activate(struct spi_slave *slave)
+{
+	if (slave->cs == 0)
+	{
+		at91_set_pio_output(AT91_PIO_PORTD, 13, 0);
+	}
+}
+
+void spi_cs_deactivate(struct spi_slave *slave)
+{
+	if (slave->cs == 0)
+	{
+		at91_set_pio_output(AT91_PIO_PORTD, 13, 1);
+	}
+}
+#endif /* CONFIG_ATMEL_SPI */
+
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 static void sama5d3_xplained_mci0_hw_init(void)
 {
@@ -220,39 +245,10 @@ static void print_board_rev(void)
 	}
 }
 
-#define GMAC_PINS	((0x01 << 8) | (0x01 << 11) \
-| (0x01 << 16) | (0x01 << 18))
-
-#define EMAC_PINS	((0x01 << 7) | (0x01 << 8))
-
-static void ethernet_pins(void)
-{
-	struct at91_pmc *pmc = (struct at91_pmc *)ATMEL_BASE_PMC;
-	struct at91_port *piob = (struct at91_port *) ATMEL_BASE_PIOB;
-	struct at91_port *pioc = (struct at91_port *) ATMEL_BASE_PIOC;
-	
-	writel(0x01 << ATMEL_ID_PIOB, &pmc->pcer);
-	
-	writel(GMAC_PINS, piob->pudr);
-	writel(GMAC_PINS, piob->mux.pio3.ppddr);
-	writel(GMAC_PINS, piob->per);
-	writel(GMAC_PINS, piob->oer);
-	writel(GMAC_PINS, piob->codr);
-	
-	writel(0x01 << ATMEL_ID_PIOC, &pmc->pcer);
-	
-	writel(EMAC_PINS, pioc->pudr);
-	writel(EMAC_PINS, pioc->mux.pio3.ppddr);
-	writel(EMAC_PINS, pioc->per);
-	writel(EMAC_PINS, pioc->oer);
-	writel(EMAC_PINS, pioc->codr);
-}
-
 void spl_board_init(void)
 {
 	setPortEtoInput();
 	print_board_rev();
-	ethernet_pins();
 #ifdef CONFIG_SD_BOOT
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 	sama5d3_xplained_mci0_hw_init();
