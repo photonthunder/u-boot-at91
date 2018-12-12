@@ -16,6 +16,7 @@
 #include <asm/arch/atmel_mpddrc.h>
 #include <asm/arch/at91_wdt.h>
 #include "at91_sckc.h"
+#include "pmic.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
