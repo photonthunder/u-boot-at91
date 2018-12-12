@@ -61,31 +61,6 @@ static void sama5d3_xplained_usb_hw_init(void)
 }
 #endif
 
-/* SPI chip select control */
-#ifdef CONFIG_ATMEL_SPI
-#include <spi.h>
-int spi_cs_is_valid(unsigned int bus, unsigned int cs)
-{
-	return bus == 0 && cs < 1;
-}
-
-void spi_cs_activate(struct spi_slave *slave)
-{
-	if (slave->cs == 0)
-	{
-		at91_set_pio_output(AT91_PIO_PORTD, 13, 0);
-	}
-}
-
-void spi_cs_deactivate(struct spi_slave *slave)
-{
-	if (slave->cs == 0)
-	{
-		at91_set_pio_output(AT91_PIO_PORTD, 13, 1);
-	}
-}
-#endif /* CONFIG_ATMEL_SPI */
-
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 static void sama5d3_xplained_mci0_hw_init(void)
 {
