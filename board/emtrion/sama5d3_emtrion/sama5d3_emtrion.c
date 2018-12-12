@@ -61,13 +61,6 @@ static void sama5d3_xplained_usb_hw_init(void)
 }
 #endif
 
-#ifdef CONFIG_GENERIC_ATMEL_MCI
-static void sama5d3_xplained_mci0_hw_init(void)
-{
-	at91_set_pio_output(AT91_PIO_PORTE, 2, 0);	/* MCI0 Power */
-}
-#endif
-
 #ifdef CONFIG_DEBUG_UART_BOARD_INIT
 void board_debug_uart_init(void)
 {
@@ -130,13 +123,13 @@ static void use_crystal_osc_for_slowclk(void)
 
 int board_early_init_f(void)
 {
-	at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
+	/*at91_set_pio_output(AT91_PIO_PORTB, 14, 0);
 	at91_set_pio_output(AT91_PIO_PORTB, 15, 0);
 	at91_set_pio_output(AT91_PIO_PORTD, 14, 0);
 	at91_set_pio_output(AT91_PIO_PORTD, 15, 0);
 	at91_set_pio_output(AT91_PIO_PORTD, 16, 0);
 	at91_set_pio_output(AT91_PIO_PORTD, 17, 0);
-	at91_set_pio_output(AT91_PIO_PORTD, 18, 0);
+	at91_set_pio_output(AT91_PIO_PORTD, 18, 0);*/
 
 #ifdef CONFIG_DEBUG_UART
 	debug_uart_init();
@@ -158,7 +151,7 @@ int board_init(void)
 	sama5d3_xplained_usb_hw_init();
 #endif
 #ifdef CONFIG_GENERIC_ATMEL_MCI
-	sama5d3_xplained_mci0_hw_init();
+	at91_mci_hw_init();
 #endif
 	return 0;
 }
@@ -220,13 +213,54 @@ static void print_board_rev(void)
 	}
 }
 
+#ifdef CONFIG_SYS_I2C_SOFT
+int get_i2c_sda_pin(void)
+{
+	if (get_board_revision() == R2A) {
+		return AT91_PIN_PC26;
+	} else {
+		return AT91_PIN_PA30;
+	}
+}
+
+int get_i2c_scl_pin(void)
+{
+	if (get_board_revision() == R2A) {
+		return AT91_PIN_PC27;
+	} else {
+		return AT91_PIN_PA31;
+	}
+}
+
+static void pmic_init(void)
+{
+	uchar value;
+	
+	i2c_init(CONFIG_SYS_I2C_SOFT_SPEED, CONFIG_SYS_I2C_SOFT_SLAVE);
+	
+	puts("Increase core voltage from 1.2V to 1.25V.\n");
+	
+	value = VSET_1V25;
+	if (i2c_write(ACT9845_I2C_ADDR, REG2_VSET_PRIM, 1, &value, 1))
+	{
+		puts("Error setting core voltage!\n");
+	}
+}
+
+#endif
+
+
+
 void spl_board_init(void)
 {
 	setPortEtoInput();
 	print_board_rev();
 #ifdef CONFIG_SD_BOOT
+#ifdef CONFIG_SYS_I2C_SOFT
+	pmic_init();
+#endif
 #ifdef CONFIG_GENERIC_ATMEL_MCI
-	sama5d3_xplained_mci0_hw_init();
+	at91_mci_hw_init();
 #endif
 #elif CONFIG_NAND_BOOT
 	sama5d3_xplained_nand_hw_init();
