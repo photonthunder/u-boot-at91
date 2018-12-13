@@ -46,7 +46,7 @@
 #define CONFIG_ENV_SIZE		0x4000
 #endif
 
-#define CONFIG_BOOTCOMMAND	"fatload mmc 0:1 0x21000000 at91-sama5d3_emtrion.dtb; " \
+#define CONFIG_BOOTCOMMAND	"fatload mmc 0:1 0x21000000 sama5d3_emtrion.dtb; " \
 "fatload mmc 0:1 0x22000000 zImage; " \
 "bootz 0x22000000 - 0x21000000"
 
@@ -178,43 +178,4 @@ int get_i2c_scl_pin(void);
 #define CONFIG_SYS_NAND_BAD_BLOCK_POS	0x0
 #define CONFIG_SPL_GENERATE_ATMEL_PMECC_HEADER
 #endif
-
-#if STUFF_TO_INCLUDE
-#if CONFIG_SYS_USE_NANDFLASH
-/* bootstrap + u-boot + env in nandflash */
-#define CONFIG_ENV_IS_IN_NAND
-#define CONFIG_ENV_OVERWRITE
-#define CONFIG_ENV_OFFSET		0xc0000
-#define CONFIG_ENV_SIZE			0x20000
-#define CONFIG_EXTRA_ENV_SETTINGS \
-"console=ttyS0,115200 earlyprintk\0" \
-"loadaddr=0x22000000\0" \
-"fdt_addr=0x21000000\0" \
-"bootdir=/boot\0" \
-"bootfile=zImage\0" \
-"ip-method=dhcp\0" \
-"bootdelay=3\0" \
-"configure-ip=if test -n \"${ip-method}\"; then if test \"${ip-method}\" = dhcp; then setenv ip dhcp && setenv autoload no && dhcp ; elif test \"${ip-method}\" = static; then if test -n \"${ipaddr}\" && test -n \"${serverip}\" && test -n \"${netmask}\"; then setenv ip ${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}:eth0:off; else echo You have to set ipaddr, netmask and serverip when using ip-method static. ;  false; fi; else echo ip-method has to be either dhcp or static. ; false ; fi; else echo ip-method has to be either dhcp or static. ; false ; fi\0" \
-"test-nfsroot=if test -n \"${nfsroot}\"; then true ; else echo Please set nfsroot variable. ; false ; fi\0" \
-"net_boot=run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_net_boot}\"; then run uboot_script_net_boot; else echo Bootscript does not define uboot_script_net_boot, aborting. ; fi\0" \
-"flash_boot=setenv result 0; while test \"0\" -eq ${result}; do mtdparts default && ubi part rootfs && ubifsmount ubi0:rootfs && ubifsload ${loadaddr} /boot/uboot_script ; && setenv result 1; done; env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_flash_boot}\" ; then run uboot_script_flash_boot ; else echo Bootscript does not define uboot_script_flash_boot, aborting. ; fi\0" \
-"update_uboot=if test -n \"${serverip}\"; then run configure-ip && tftp ${image.bootstrap} && mtdparts default && nand erase.part bootstrap && nand write ${loadaddr} bootstrap ${filesize} && tftp ${image.uboot} && nand erase.part uboot && nand write ${loadaddr} uboot ${filesize} && echo Update U-Boot successful; else echo Please set serverip variable. ; fi\0" \
-"update_kernel=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_update_kernel}\"; then run uboot_script_update_kernel; else echo Bootscript does not define uboot_script_update kernel, aborting ; fi ; else echo Please set serverip variable. ; fi\0" \
-"update_rootfs=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_update_rootfs}\" ; then run uboot_script_update_rootfs; else echo Bootscript does not define update_rootfs, aborting ; fi ; else echo Please set serverip variable. ; fi\0" \
-"restore_sys=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_restore_sys}\"; then run uboot_script_restore_sys; else echo Bootscript does not define uboot_script_restore_sys, aborting. ; fi ; else echo Please set serverip variable. ; fi\0"
-#endif
-
-#ifdef CONFIG_SYS_USE_MMC
-#define CONFIG_BOOTARGS							\
-"console=ttyS0,115200 earlyprintk "				\
-"root=/dev/mmcblk0p2 rw rootwait"
-#else
-#define CONFIG_BOOTARGS							\
-"console=ttyS0,115200 earlyprintk "				\
-"rootfstype=ubifs ubi.mtd=3 root=ubi0:rootfs rw rootwait"
-#endif
-#endif
-
-
-
 #endif
