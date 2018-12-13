@@ -9,7 +9,88 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#include "at91-sama5_common.h"
+/* ARM asynchronous clock */
+#define CONFIG_SYS_AT91_SLOW_CLOCK      32768
+#define CONFIG_SYS_AT91_MAIN_CLOCK      12000000 /* from 12 MHz crystal */
+
+#define CONFIG_ARCH_CPU_INIT
+
+#ifndef CONFIG_SPL_BUILD
+#define CONFIG_SKIP_LOWLEVEL_INIT
+#endif
+
+/* general purpose I/O */
+#ifndef CONFIG_DM_GPIO
+#define CONFIG_AT91_GPIO
+#endif
+
+
+/*
+ * BOOTP options
+ */
+#define CONFIG_BOOTP_BOOTFILESIZE
+
+/*
+ * Command line configuration.
+ */
+
+#ifdef CONFIG_SD_BOOT
+
+#ifdef CONFIG_ENV_IS_IN_MMC
+/* Use raw reserved sectors to save environment */
+#define CONFIG_ENV_OFFSET		0x2000
+#define CONFIG_ENV_SIZE			0x1000
+#define CONFIG_SYS_MMC_ENV_DEV		0
+#else
+/* u-boot env in sd/mmc card */
+#define CONFIG_ENV_SIZE		0x4000
+#endif
+
+#define CONFIG_BOOTCOMMAND	"fatload mmc 0:1 0x21000000 at91-sama5d3_emtrion.dtb; " \
+"fatload mmc 0:1 0x22000000 zImage; " \
+"bootz 0x22000000 - 0x21000000"
+
+#else
+
+#ifdef CONFIG_NAND_BOOT
+/* u-boot env in nand flash */
+#define CONFIG_ENV_OFFSET		0x140000
+#define CONFIG_ENV_OFFSET_REDUND	0x100000
+#define CONFIG_ENV_SIZE			0x20000
+#define CONFIG_BOOTCOMMAND		"nand read 0x21000000 0x180000 0x80000;"	\
+"nand read 0x22000000 0x200000 0x600000;"	\
+"bootz 0x22000000 - 0x21000000"
+#elif CONFIG_SPI_BOOT
+#error "Serial Flash not setup"
+#endif
+
+#endif
+
+/* Size of malloc() pool */
+#define CONFIG_SYS_MALLOC_LEN		(4 * 1024 * 1024)
+
+
+#define STUFF_TO_INCLUDE 0
+
+#if STUFF_TO_INCLUDE
+/* I2C */
+
+#define CONFIG_ATMEL_LEGACY /* needed for gpio header */
+#define CONFIG_SPL_I2C_SUPPORT
+#define CONFIG_SYS_I2C_SOFT
+#define CONFIG_SYS_I2C
+
+#ifndef __ASSEMBLY__
+int get_i2c_sda_pin(void);
+int get_i2c_scl_pin(void);
+#endif
+#define CONFIG_SOFT_I2C_GPIO_SDA	get_i2c_sda_pin()
+#define CONFIG_SOFT_I2C_GPIO_SCL	get_i2c_scl_pin()
+#define CONFIG_SYS_I2C_SOFT_SPEED	50000
+#define CONFIG_SYS_I2C_SOFT_SLAVE	0
+#define I2C_DELAY              udelay(5)       /* 1/4 I2C clock duration */
+#define CONFIG_SYS_NUM_I2C_ADAPTERS 1
+#endif
 
 /*
  * This needs to be defined for the OHCI code to work but it is defined as
@@ -44,7 +125,10 @@
 /* our CLE is AD22 */
 #define CONFIG_SYS_NAND_MASK_CLE	(1 << 22)
 #define CONFIG_SYS_NAND_ONFI_DETECTION
-
+#if STUFF_TO_INCLUDE
+#define MTDIDS_DEFAULT     "nand0=atmel_nand"
+#define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)"
+#endif
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #endif
@@ -62,7 +146,7 @@
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_USB_OHCI_CPU_INIT
 #define CONFIG_SYS_USB_OHCI_REGS_BASE		0x00600000
-#define CONFIG_SYS_USB_OHCI_SLOT_NAME		"SAMA5D3 Xplained"
+#define CONFIG_SYS_USB_OHCI_SLOT_NAME		"SAMA5D3 Emtrion"
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	2
 #endif
 
@@ -94,4 +178,43 @@
 #define CONFIG_SYS_NAND_BAD_BLOCK_POS	0x0
 #define CONFIG_SPL_GENERATE_ATMEL_PMECC_HEADER
 #endif
+
+#if STUFF_TO_INCLUDE
+#if CONFIG_SYS_USE_NANDFLASH
+/* bootstrap + u-boot + env in nandflash */
+#define CONFIG_ENV_IS_IN_NAND
+#define CONFIG_ENV_OVERWRITE
+#define CONFIG_ENV_OFFSET		0xc0000
+#define CONFIG_ENV_SIZE			0x20000
+#define CONFIG_EXTRA_ENV_SETTINGS \
+"console=ttyS0,115200 earlyprintk\0" \
+"loadaddr=0x22000000\0" \
+"fdt_addr=0x21000000\0" \
+"bootdir=/boot\0" \
+"bootfile=zImage\0" \
+"ip-method=dhcp\0" \
+"bootdelay=3\0" \
+"configure-ip=if test -n \"${ip-method}\"; then if test \"${ip-method}\" = dhcp; then setenv ip dhcp && setenv autoload no && dhcp ; elif test \"${ip-method}\" = static; then if test -n \"${ipaddr}\" && test -n \"${serverip}\" && test -n \"${netmask}\"; then setenv ip ${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}:eth0:off; else echo You have to set ipaddr, netmask and serverip when using ip-method static. ;  false; fi; else echo ip-method has to be either dhcp or static. ; false ; fi; else echo ip-method has to be either dhcp or static. ; false ; fi\0" \
+"test-nfsroot=if test -n \"${nfsroot}\"; then true ; else echo Please set nfsroot variable. ; false ; fi\0" \
+"net_boot=run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_net_boot}\"; then run uboot_script_net_boot; else echo Bootscript does not define uboot_script_net_boot, aborting. ; fi\0" \
+"flash_boot=setenv result 0; while test \"0\" -eq ${result}; do mtdparts default && ubi part rootfs && ubifsmount ubi0:rootfs && ubifsload ${loadaddr} /boot/uboot_script ; && setenv result 1; done; env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_flash_boot}\" ; then run uboot_script_flash_boot ; else echo Bootscript does not define uboot_script_flash_boot, aborting. ; fi\0" \
+"update_uboot=if test -n \"${serverip}\"; then run configure-ip && tftp ${image.bootstrap} && mtdparts default && nand erase.part bootstrap && nand write ${loadaddr} bootstrap ${filesize} && tftp ${image.uboot} && nand erase.part uboot && nand write ${loadaddr} uboot ${filesize} && echo Update U-Boot successful; else echo Please set serverip variable. ; fi\0" \
+"update_kernel=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_update_kernel}\"; then run uboot_script_update_kernel; else echo Bootscript does not define uboot_script_update kernel, aborting ; fi ; else echo Please set serverip variable. ; fi\0" \
+"update_rootfs=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_update_rootfs}\" ; then run uboot_script_update_rootfs; else echo Bootscript does not define update_rootfs, aborting ; fi ; else echo Please set serverip variable. ; fi\0" \
+"restore_sys=if test -n \"${serverip}\"; then run configure-ip && if test -n \"${tftproot}\"; then tftp ${tftproot}/boot/uboot_script; else run test-nfsroot && nfs ${nfsroot}/boot/uboot_script; fi && env import -t ${loadaddr} ${filesize} && if test -n \"${uboot_script_restore_sys}\"; then run uboot_script_restore_sys; else echo Bootscript does not define uboot_script_restore_sys, aborting. ; fi ; else echo Please set serverip variable. ; fi\0"
+#endif
+
+#ifdef CONFIG_SYS_USE_MMC
+#define CONFIG_BOOTARGS							\
+"console=ttyS0,115200 earlyprintk "				\
+"root=/dev/mmcblk0p2 rw rootwait"
+#else
+#define CONFIG_BOOTARGS							\
+"console=ttyS0,115200 earlyprintk "				\
+"rootfstype=ubifs ubi.mtd=3 root=ubi0:rootfs rw rootwait"
+#endif
+#endif
+
+
+
 #endif
