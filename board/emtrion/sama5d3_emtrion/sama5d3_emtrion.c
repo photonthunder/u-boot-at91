@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
- * Copyright (C) 2014 Atmel Corporation
- *		      Bo Shen <voice.shen@atmel.com>
+ * Copyright (C) 2018
+ *		      Daniel Evans <photonthunder@gmail.com>
  */
 
 #include <common.h>
@@ -204,52 +204,11 @@ static void print_board_rev(void)
 	}
 }
 
-#ifdef CONFIG_SYS_I2C_SOFT
-int get_i2c_sda_pin(void)
-{
-	if (get_board_revision() == R2A) {
-		return AT91_PIN_PC26;
-	} else {
-		return AT91_PIN_PA30;
-	}
-}
-
-int get_i2c_scl_pin(void)
-{
-	if (get_board_revision() == R2A) {
-		return AT91_PIN_PC27;
-	} else {
-		return AT91_PIN_PA31;
-	}
-}
-
-static void pmic_init(void)
-{
-	uchar value;
-	
-	i2c_init(CONFIG_SYS_I2C_SOFT_SPEED, CONFIG_SYS_I2C_SOFT_SLAVE);
-	
-	puts("Increase core voltage from 1.2V to 1.25V.\n");
-	
-	value = VSET_1V25;
-	if (i2c_write(ACT9845_I2C_ADDR, REG2_VSET_PRIM, 1, &value, 1))
-	{
-		puts("Error setting core voltage!\n");
-	}
-}
-
-#endif
-
-
-
 void spl_board_init(void)
 {
 	setPortEtoInput();
 	print_board_rev();
 #ifdef CONFIG_SD_BOOT
-#ifdef CONFIG_SYS_I2C_SOFT
-	pmic_init();
-#endif
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 	at91_mci_hw_init();
 #endif
