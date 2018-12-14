@@ -102,8 +102,10 @@
 /* our CLE is AD22 */
 #define CONFIG_SYS_NAND_MASK_CLE	(1 << 22)
 #define CONFIG_SYS_NAND_ONFI_DETECTION
-//#define MTDIDS_DEFAULT     "nand0=atmel_nand"
-//#define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)"
+/*
+#define MTDIDS_DEFAULT     "nand0=atmel_nand"
+#define MTDPARTS_DEFAULT   "mtdparts=atmel_nand:256k@0(bootstrap),512k@256k(uboot),256k@768k(env),511m@1m(rootfs)"
+*/
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #endif
