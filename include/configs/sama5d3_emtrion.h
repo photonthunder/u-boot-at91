@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
 /*
- * Configuration settings for the SAMA5D3 Xplained board.
+ * Configuration settings for the SAMA5D3 Emtrion board.
  *
  * Copyright (C) 2018
  *		      Daniel Evans <photonthunder@gmail.com>
@@ -144,7 +144,6 @@
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME	"u-boot.img"
 
 #elif CONFIG_NAND_BOOT
-#error "Here I am"
 #define CONFIG_SPL_NAND_DRIVERS
 #define CONFIG_SPL_NAND_BASE
 #define CONFIG_SYS_NAND_U_BOOT_OFFS	0x40000

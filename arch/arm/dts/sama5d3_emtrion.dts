@@ -1,7 +1,7 @@
 /*
- * at91-sama5d3_xplained.dts - Device Tree file for the SAMA5D3 Xplained board
+ * sama5d3_emtrion.dts - Device Tree file for the SAMA5D3 emtrion board
  *
- *  Copyright (C) 2018 Daniel Evans,
+ *  Copyright (C) 2018
  *		  2018 Daniel Evans <photonthunder@gmail.com>
  *
  * Licensed under GPLv2 or later.
