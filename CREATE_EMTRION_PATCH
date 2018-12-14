@@ -1,0 +1,5 @@
+To Create EMTRION patch just diff the current branch with master or whatever the starting point is.  For example if my branch is testing and I started with master:
+
+git diff master testing > ../uboot.patch
+
+Then replace uboot.patch in twigpilot_linux_image or equivalent
