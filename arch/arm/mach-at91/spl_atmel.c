@@ -11,7 +11,6 @@
 #include <asm/arch/at91_pmc.h>
 #include <asm/arch/at91_rstc.h>
 #include <asm/arch/at91_wdt.h>
-#include <asm/arch/gpio.h>
 #include <asm/arch/clk.h>
 #include <spl.h>
 
