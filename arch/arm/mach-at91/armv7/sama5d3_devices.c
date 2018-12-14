@@ -122,21 +122,8 @@ void at91_mci_hw_init(void)
 #endif
 	at91_pio3_set_a_periph(AT91_PIO_PORTD, 9, 0);        /* MCI0 CLK */
 
-#ifdef CONFIG_TARGET_SAMA5D3_EMTRION
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,19, 0);        /* MCI1 CMD */
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,20, 0);        /* MCI1 DA0 */
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,21, 0);        /* MCI1 DA1 */
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,22, 0);        /* MCI1 DA2 */
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,23, 0);        /* MCI1 DA3 */
-	at91_pio3_set_a_periph(AT91_PIO_PORTB,24, 0);        /* MCI1 CLK */
-	/* Enable clock */
-	at91_periph_clk_enable(ATMEL_ID_MCI1);
-#endif
-	
 	/* Enable clock */
 	at91_periph_clk_enable(ATMEL_ID_MCI0);
-	
-
 }
 #endif
 
