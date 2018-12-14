@@ -4,7 +4,7 @@ config SYS_BOARD
 	default "sama5d3_emtrion"
 
 config SYS_VENDOR
-	default "emtrion"
+	default "atmel"
 
 config SYS_CONFIG_NAME
 	default "sama5d3_emtrion"
