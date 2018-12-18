@@ -11,7 +11,7 @@
 
 / {
 	model = "SAMA5D3 Emtrion";
-	compatible = "emtrion,sbc-sama5d36", "atmel,sama5d3", "atmel,sama5";
+	compatible = "emtrion,sama5d3_emtrion", "atmel,sama5d3", "atmel,sama5";
 
 	chosen {
 		u-boot,dm-pre-reloc;
@@ -58,6 +58,22 @@
 				status = "disabled";
 			};
 
+			tcb0: timer@f0010000 {
+				timer0: timer@0 {
+					compatible = "atmel,tcb-timer";
+					reg = <0>;
+				};
+
+				timer1: timer@1 {
+					compatible = "atmel,tcb-timer";
+					reg = <1>;
+				};
+			};
+
+			ssc0: ssc@f0008000 {
+				pinctrl-0 = <>;
+			};
+
 			i2c0: i2c@f0014000 {
 				status = "disabled";
 			};
@@ -80,6 +96,21 @@
 			pwm0: pwm@f002c000 {
 				pinctrl-names = "default";
 				pinctrl-0 = <&pinctrl_pwm0_pwmh0_0 &pinctrl_pwm0_pwmh1_0>;
+				status = "disabled";
+			};
+
+			sha@f8034000 {
+				dmas = <0>, <0>;
+				status = "disabled";
+			};
+
+			aes@f8038000 {
+				dmas = <0>, <0>;
+				status = "disabled";
+			};
+
+			tdes@f803c000 {
+				dmas = <0>, <0>;
 				status = "disabled";
 			};
 
@@ -147,6 +178,7 @@
 					&pinctrl_adc0_ad4
 					&pinctrl_adc0_ad5
 					>;
+				atmel,adc-vref = <3300>;
 				status = "okay";
 			};
 
