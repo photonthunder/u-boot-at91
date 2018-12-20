@@ -44,7 +44,6 @@
 				slot@0 {
 					reg = <0>;
 					bus-width = <8>;
-					cd-gpios = <&pioE 0 GPIO_ACTIVE_LOW>;
 				};
 			};
 
@@ -224,6 +223,13 @@
 						atmel,pins =
 							<AT91_PIOE 29 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
 					};
+
+					pinctrl_mmc0_cd: mmc0_cd {
+						u-boot,dm-pre-reloc;
+						atmel,pins =
+						<AT91_PIOE 0 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
+					};
+
 
 					pinctrl_mmc1_cd: mmc1_cd {
 						u-boot,dm-pre-reloc;
