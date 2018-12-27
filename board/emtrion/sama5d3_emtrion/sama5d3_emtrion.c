@@ -160,7 +160,8 @@ int dram_init(void)
 
 static void setPortEtoInput(void) {
 	int i;
-	for (i=0; i<32; i++) {
+	at91_set_pio_output(AT91_PIO_PORTE, 1, 0);
+	for (i=1; i<32; i++) {
 		/* Do not touch PE21 & PE22: Reserved for the NAND */
 		if (i != 21 && i != 22) {
 			at91_set_pio_input(AT91_PIO_PORTE, i, 0);
