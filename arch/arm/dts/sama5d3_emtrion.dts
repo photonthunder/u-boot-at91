@@ -164,8 +164,6 @@
 			};
 
 			adc0: adc@f8018000 {
-				#address-cells = <0>;
-				#size-cells = <0>;
 				pinctrl-0 = <
 					&pinctrl_adc0_adtrg
 					&pinctrl_adc0_ad0
