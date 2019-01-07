@@ -14,12 +14,7 @@
 	compatible = "emtrion,sama5d3_emtrion", "atmel,sama5d3", "atmel,sama5";
 
 	chosen {
-		u-boot,dm-pre-reloc;
-		stdout-path = &dbgu;
-	};
-
-	aliases {
-		spi0 = &spi0;
+		stdout-path = "serial0:115200n8";
 	};
 
 	memory {
@@ -40,10 +35,22 @@
 		apb {
 			mmc0: mmc@f0000000 {
 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3>;
+				/* vmmc-supply = <&vcc_mmc0_reg>;
+				vqmmc-supply = <&vcc_3v3_reg>; */
 				status = "okay";
 				slot@0 {
 					reg = <0>;
 					bus-width = <8>;
+					/* cd-gpios = <&pioE 0 GPIO_ACTIVE_LOW>; */
+				};
+			};
+
+			mmc1: mmc@f8000000 {
+				status = "disabled";
+				slot@0 {
+					reg = <0>;
+					bus-width = <4>;
+					cd-gpios = <&pioE 1 GPIO_ACTIVE_HIGH>;
 				};
 			};
 
@@ -144,15 +151,7 @@
 				status = "okay";
 			};
 
-			mmc1: mmc@f8000000 {
-				pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
-				status = "disabled";
-				slot@0 {
-					reg = <0>;
-					bus-width = <4>;
-					cd-gpios = <&pioE 1 GPIO_ACTIVE_HIGH>;
-				};
-			};
+
 
 			spi1: spi@f8008000 {
 				cs-gpios = <0>, <0>, <0>, <0>;
@@ -182,7 +181,6 @@
 
 			i2c2: i2c@f801c000 {
 				dmas = <0>, <0>;	/* Do not use DMA for i2c2 */
-				pinctrl-0 = <&pinctrl_i2c2_pu>;
 				status = "disabled";
 			};
 
@@ -206,19 +204,6 @@
 
 			pinctrl@fffff200 {
 				board {
-					pinctrl_i2c2_pu: i2c2_pu {
-						atmel,pins =
-							<AT91_PIOA 18 AT91_PERIPH_B AT91_PINCTRL_PULL_UP>,
-							<AT91_PIOA 19 AT91_PERIPH_B AT91_PINCTRL_PULL_UP>;
-					};
-
-
-					pinctrl_mmc1_cd: mmc1_cd {
-						u-boot,dm-pre-reloc;
-						atmel,pins =
-							<AT91_PIOE 1 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
-					};
-
 					pinctrl_usba_vbus: usba_vbus {
 						atmel,pins =
 							<AT91_PIOE 9 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;	/* PE9, conflicts with A9 */
@@ -236,48 +221,6 @@
 				main: mainck {
 					clock-frequency = <12000000>;
 				};
-			};
-		};
-
-		nand0: nand@60000000 {
-			nand-bus-width = <8>;
-			nand-ecc-mode = "hw";
-			atmel,has-pmecc;
-			atmel,pmecc-cap = <4>;
-			atmel,pmecc-sector-size = <512>;
-			nand-on-flash-bbt;
-			status = "okay";
-  			#address-cells = <1>;
-  			#size-cells = <1>;
-
-			at91bootstrap@0 {
-				label = "uboot spl";
-				reg = <0x0 0x40000>;
-			};
-
-			bootloader@40000 {
-				label = "uboot";
-				reg = <0x40000 0x80000>;
-			};
-
-			bootloaderenv@c0000 {
-				label = "uboot env";
-				reg = <0xc0000 0xc0000>;
-			};
-
-			dtb@180000 {
-				label = "device tree";
-				reg = <0x180000 0x80000>;
-			};
-
-			kernel@200000 {
-				label = "kernel";
-				reg = <0x200000 0x600000>;
-			};
-
-			rootfs@800000 {
-				label = "rootfs";
-				reg = <0x800000 0x0f800000>;
 			};
 		};
 
@@ -299,6 +242,62 @@
 
 		usb2: ehci@700000 {
 			status = "okay";
+		};
+	};
+
+	ebi: ebi@10000000 {
+		pinctrl-0 = <&pinctrl_ebi_nand_addr>;
+		pinctrl-names = "default";
+		status = "okay";
+
+		nand_controller: nand-controller {
+		status = "okay";
+
+		nand@3 {
+			reg = <0x3 0x0 0x2>;
+			atmel,rb = <0>;
+			nand-bus-width = <8>;
+			nand-ecc-mode = "hw";
+			nand-ecc-strength = <4>;
+			nand-ecc-step-size = <512>;
+			nand-on-flash-bbt;
+			label = "atmel_nand";
+
+			partitions {
+				compatible = "fixed-partitions";
+				#address-cells = <1>;
+				#size-cells = <1>;
+
+				at91bootstrap@0 {
+					label = "at91bootstrap";
+					reg = <0x0 0x40000>;
+				};
+
+				bootloader@40000 {
+					label = "bootloader";
+					reg = <0x40000 0x80000>;
+				};
+
+				bootloaderenv@c0000 {
+					label = "bootloader env";
+					reg = <0xc0000 0xc0000>;
+				};
+
+				dtb@180000 {
+					label = "device tree";
+					reg = <0x180000 0x80000>;
+				};
+
+				kernel@200000 {
+					label = "kernel";
+					reg = <0x200000 0x600000>;
+				};
+
+				rootfs@800000 {
+					label = "rootfs";
+					reg = <0x800000 0x0f800000>;
+				};
+			};
 		};
 	};
 
