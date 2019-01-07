@@ -66,7 +66,7 @@
 
 			pmc: pmc@fffffc00 {
 				periphck {
-					macb0_clk: macb0_clk@34 {
+					macb0_clk: macb0_clk {
 						#clock-cells = <0>;
 						reg = <34>;
 					};

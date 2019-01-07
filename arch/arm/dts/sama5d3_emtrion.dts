@@ -39,8 +39,7 @@
 	ahb {
 		apb {
 			mmc0: mmc@f0000000 {
-				u-boot,dm-pre-reloc;
-				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3 /*&pinctrl_mmc0_dat4_7 &pinctrl_mmc0_cd*/>;
+				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3>;
 				status = "okay";
 				slot@0 {
 					reg = <0>;
@@ -207,28 +206,10 @@
 
 			pinctrl@fffff200 {
 				board {
-					u-boot,dm-pre-reloc;
-					pinctrl_i2c0_pu: i2c0_pu {
-						atmel,pins =
-							<AT91_PIOA 30 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>,
-							<AT91_PIOA 31 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;
-					};
-
 					pinctrl_i2c2_pu: i2c2_pu {
 						atmel,pins =
 							<AT91_PIOA 18 AT91_PERIPH_B AT91_PINCTRL_PULL_UP>,
 							<AT91_PIOA 19 AT91_PERIPH_B AT91_PINCTRL_PULL_UP>;
-					};
-
-					pinctrl_key_gpio: key_gpio_0 {
-						atmel,pins =
-							<AT91_PIOE 29 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
-					};
-
-					pinctrl_mmc0_cd: mmc0_cd {
-						u-boot,dm-pre-reloc;
-						atmel,pins =
-						<AT91_PIOE 0 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP_DEGLITCH>;
 					};
 
 
@@ -266,6 +247,8 @@
 			atmel,pmecc-sector-size = <512>;
 			nand-on-flash-bbt;
 			status = "okay";
+  			#address-cells = <1>;
+  			#size-cells = <1>;
 
 			at91bootstrap@0 {
 				label = "uboot spl";

@@ -33,7 +33,7 @@
 
 			pmc: pmc@fffffc00 {
 				periphck {
-					mci2_clk: mci2_clk@23 {
+					mci2_clk: mci2_clk {
 						#clock-cells = <0>;
 						reg = <23>;
 					};
