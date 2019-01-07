@@ -151,8 +151,6 @@
 				status = "okay";
 			};
 
-
-
 			spi1: spi@f8008000 {
 				cs-gpios = <0>, <0>, <0>, <0>;
 				pinctrl-0 = <&pinctrl_spi1 &pinctrl_ble_irq>;
@@ -298,6 +296,7 @@
 					reg = <0x800000 0x0f800000>;
 				};
 			};
+		};
 		};
 	};
 
