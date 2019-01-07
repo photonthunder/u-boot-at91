@@ -89,12 +89,14 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 		ranges;
+		u-boot,dm-pre-reloc;
 
 		apb {
 			compatible = "simple-bus";
 			#address-cells = <1>;
 			#size-cells = <1>;
 			ranges;
+			u-boot,dm-pre-reloc;
 
 			mmc0: mmc@f0000000 {
 				compatible = "atmel,hsmci";
@@ -495,6 +497,7 @@
 			};
 
 			pinctrl@fffff200 {
+				u-boot,dm-pre-reloc;
 				#address-cells = <1>;
 				#size-cells = <1>;
 				compatible = "atmel,sama5d3-pinctrl", "atmel,at91sam9x5-pinctrl", "simple-bus";
@@ -686,19 +689,23 @@
 				};
 
 				mmc0 {
+					u-boot,dm-pre-reloc;
 					pinctrl_mmc0_clk_cmd_dat0: mmc0_clk_cmd_dat0 {
+						u-boot,dm-pre-reloc;
 						atmel,pins =
 							<AT91_PIOD 9 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PD9 periph A MCI0_CK */
 							 AT91_PIOD 0 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PD0 periph A MCI0_CDA with pullup */
 							 AT91_PIOD 1 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;	/* PD1 periph A MCI0_DA0 with pullup */
 					};
 					pinctrl_mmc0_dat1_3: mmc0_dat1_3 {
+						u-boot,dm-pre-reloc;
 						atmel,pins =
 							<AT91_PIOD 2 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PD2 periph A MCI0_DA1 with pullup */
 							 AT91_PIOD 3 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PD3 periph A MCI0_DA2 with pullup */
 							 AT91_PIOD 4 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;	/* PD4 periph A MCI0_DA3 with pullup */
 					};
 					pinctrl_mmc0_dat4_7: mmc0_dat4_7 {
+						u-boot,dm-pre-reloc;
 						atmel,pins =
 							<AT91_PIOD 5 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PD5 periph A MCI0_DA4 with pullup, conflicts with TIOA0, PWMH2 */
 							 AT91_PIOD 6 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PD6 periph A MCI0_DA5 with pullup, conflicts with TIOB0, PWML2 */
