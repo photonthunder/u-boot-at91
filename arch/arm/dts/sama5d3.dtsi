@@ -321,6 +321,8 @@
 				atmel,adc-sample-hold-time = <11>;
 				atmel,adc-res-names = "lowres", "highres";
 				status = "disabled";
+				#address-cells = <1>;
+				#size-cells = <0>;
 
 				trigger@0 {
 					reg = <0>;

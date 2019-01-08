@@ -18,6 +18,10 @@
 		stdout-path = &dbgu;
 	};
 
+	aliases {
+		spi0 = &spi0;
+	};
+
 	memory {
 		reg = <0x20000000 0x10000000>;
 	};
@@ -35,6 +39,7 @@
 	ahb {
 		apb {
 			mmc0: mmc@f0000000 {
+				u-boot,dm-pre-reloc;
 				pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3>;
 				/* vmmc-supply = <&vcc_mmc0_reg>;
 				vqmmc-supply = <&vcc_3v3_reg>; */
@@ -65,6 +70,9 @@
 			};
 
 			tcb0: timer@f0010000 {
+				#address-cells = <1>;
+				#size-cells = <0>;
+
 				timer0: timer@0 {
 					compatible = "atmel,tcb-timer";
 					reg = <0>;
