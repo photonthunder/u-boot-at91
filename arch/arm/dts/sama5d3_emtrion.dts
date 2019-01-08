@@ -241,7 +241,7 @@
 			status = "okay";
 
 			at91bootstrap@0 {
-				label = "uboot spl";
+				label = "uboot_spl";
 				reg = <0x0 0x40000>;
 			};
 
@@ -251,12 +251,12 @@
 			};
 
 			bootloaderenv@c0000 {
-				label = "uboot env";
+				label = "uboot_env";
 				reg = <0xc0000 0xc0000>;
 			};
 
 			dtb@180000 {
-				label = "device tree";
+				label = "device_tree";
 				reg = <0x180000 0x80000>;
 			};
 
