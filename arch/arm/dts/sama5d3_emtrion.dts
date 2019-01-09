@@ -239,23 +239,25 @@
 			atmel,pmecc-sector-size = <512>;
 			nand-on-flash-bbt;
 			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <1>;
 
-			at91bootstrap@0 {
+			uboot_spl@0 {
 				label = "uboot_spl";
 				reg = <0x0 0x40000>;
 			};
 
-			bootloader@40000 {
+			uboot@40000 {
 				label = "uboot";
 				reg = <0x40000 0x80000>;
 			};
 
-			bootloaderenv@c0000 {
+			uboot_env@c0000 {
 				label = "uboot_env";
 				reg = <0xc0000 0xc0000>;
 			};
 
-			dtb@180000 {
+			device_tree@180000 {
 				label = "device_tree";
 				reg = <0x180000 0x80000>;
 			};
@@ -267,7 +269,7 @@
 
 			rootfs@800000 {
 				label = "rootfs";
-				reg = <0x800000 0x0f800000>;
+				reg = <0x800000 0x1f800000>;
 			};
 		};
 

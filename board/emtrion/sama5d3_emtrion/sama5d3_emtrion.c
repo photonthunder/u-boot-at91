@@ -24,7 +24,6 @@ DECLARE_GLOBAL_DATA_PTR;
 void sama5d3_xplained_nand_hw_init(void)
 {
 	struct at91_smc *smc = (struct at91_smc *)ATMEL_BASE_SMC;
-	printf("Trying to setup nand...");
 	at91_periph_clk_enable(ATMEL_ID_SMC);
 
 	/* Configure SMC CS3 for NAND/SmartMedia */
@@ -49,7 +48,6 @@ void sama5d3_xplained_nand_hw_init(void)
 #endif
 	       AT91_SMC_MODE_TDF_CYCLE(3),
 	       &smc->cs[3].mode);
-	printf("done\n");
 }
 #endif
 
