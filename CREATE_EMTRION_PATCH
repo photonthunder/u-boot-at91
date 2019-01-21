@@ -3,3 +3,7 @@ To Create EMTRION patch just diff the current branch with master or whatever the
 git diff master testing > ../uboot.patch
 
 Then replace uboot.patch in twigpilot_linux_image or equivalent
+
+So an example where the git repositories are in the same folder, just cd into the u-boot-at91 directory and then type the following:
+
+git diff master testing > ../twigpilot_linux_image/EmtrionKernel/uboot.patch
