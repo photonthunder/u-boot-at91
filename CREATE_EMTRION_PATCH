@@ -6,5 +6,5 @@ Then replace uboot.patch in twigpilot_linux_image or equivalent
 
 So an example where the git repositories are in the same folder, just cd into the u-boot-at91 directory and then type the following:
 
-git diff linux4sam_6.0 testing > ../twigpilot_linux_image/EmtrionKernel/uboot.patch
+git diff reference testing > ../twigpilot_linux_image/EmtrionKernel/uboot.patch
 
