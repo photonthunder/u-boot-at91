@@ -24,7 +24,7 @@ CONFIG_BOOTDELAY=3
 CONFIG_USE_BOOTARGS=y
 CONFIG_BOOTARGS="console=ttyS0,115200 earlyprintk root=/dev/mmcblk0p2 rw rootwait"
 CONFIG_MTDIDS_DEFAULT="nand0=atmel_nand"
-CONFIG_MTDPARTS_DEFAULT="mtdparts=atmel_nand:256k(uboot_spl)ro,768k(uboot)ro,512K(uboot_env),512k(device_tree),6M(kernel)ro,-(rootfs)"
+CONFIG_MTDPARTS_DEFAULT="mtdparts=atmel_nand:256k(uboot_spl)ro,768k(uboot)ro,512K(uboot_env),512k(device_tree),6M(kernel)ro,-(rootfs) rw"
 # CONFIG_DISPLAY_BOARDINFO is not set
 CONFIG_SPL_SEPARATE_BSS=y
 CONFIG_HUSH_PARSER=y
